@@ -76,6 +76,101 @@
 					</ul>
 				</section>
 
+				<section>
+					<p>Selenium</p>
+					<p>vs.</p>
+					<p>Watir</p>
+					<p>vs.</p>
+					<p>Capybara</p>
+				</section>
+
+				<section>
+					<h3>Which programming language to use?</h3>
+
+					<p>Let's see some sample code...</p>
+				</section>
+
+				<section>
+					<h3>Selenium(Python) [Fill in text in search box]
+											<pre><code>
+#test_data.json
+[
+{"name": "echo","id": 1},{"name": "print","id": 2},{"name": "hello world","id": 3}   
+]
+					</code></pre>
+
+					<pre><code>
+
+def  test_search():  
+  with open(“test_data.json”) as data_file: 
+    data_text = json.load(data_file) 
+      for each in data_text: 
+        search_text = each["name"] 
+        var = driver.find_element_by_id("search_box")
+        var.clear()
+        var.send_keys("search_text") 
+        driver.find_element_by_name("search").click() 
+        element = driver.find_elements_by_class_name('hl') 
+        element_text = {z.text.lower() for z in element}
+        self.assertIn(search_text.lower(), element_text, "Search result does not match")
+             		</code></pre>
+             	</section>
+
+             	<section>
+             		<h3>Watir(Ruby)
+<pre><code>
+@browser.text_field(:name => "q").set "search_text"
+@browser.text_field(:name => "q").click
+@browser.span(:class, "hl").wait_until_present
+
+@visible_text = @browser.spans(:class, "hl").select {|h| h.visible?}
+@visible_text.each do |s|
+  s.text.downcase.should == keyword.downcase
+end
+</pre></code>
+				</section>
+
+				<section>
+					<h3>API testing</h3>
+				</section>
+
+				<section>
+					<h3>Behaviour Driven Testing</h3>
+				</section>
+
+				<section>
+					<ul>
+						<li>Cucumber</li>
+						<li>Lettuce</li>
+						<li>JBehave</li>
+						<li>and others</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Unit testing</h2>
+					<ul>
+						<li>Rspec</li>
+						<li>PyUnit</li>
+						<li>Junit</li>
+				</section>
+
+				<section>
+					<h3>Performance testing</h3>
+				</section>
+
+				<section>
+					<ul>
+						<li>Gatling</li>
+						<li>Curl</li>
+						<li>Apache Bench</li>
+						<li>JMeter</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3> 10 OWASP rules</h3>
+				</section>
 
 
 				<section>
