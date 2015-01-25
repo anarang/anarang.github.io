@@ -51,7 +51,8 @@
 				</section>
 
 				<section>
-					<h2> Testing Pyramid </h2>
+					<h2> Test Pyramid </h2>
+					<image src ="./images/pyramidnew.png">
 				</section>
 
 				<section>
@@ -66,22 +67,14 @@
 				</section>
 
 				<section>
-					<h3>Tools you can use for UI testing</h3>
+					<h3>Tools you can use for UI testing:</h3>
 					<br>
 					<ul>
 						<li>Selenium webdriver</li>
 						<li>Watir webdriver</li>
 						<li>Capybara</li>
-						<li>others... </li>
+						<li>and others</li>
 					</ul>
-				</section>
-
-				<section>
-					<p>Selenium</p>
-					<p>vs.</p>
-					<p>Watir</p>
-					<p>vs.</p>
-					<p>Capybara</p>
 				</section>
 
 				<section>
@@ -91,8 +84,7 @@
 				</section>
 
 				<section>
-					<h3>Selenium(Python) [Fill in text in search box]
-											<pre><code>
+					<h3>Selenium(Python) Fill in text in search box</h3>											<pre><code>
 #test_data.json
 [
 {"name": "echo","id": 1},{"name": "print","id": 2},{"name": "hello world","id": 3}   
@@ -117,8 +109,8 @@ def  test_search():
              	</section>
 
              	<section>
-             		<h3>Watir(Ruby)
-<pre><code>
+             		<h3>Watir(Ruby)</h3>
+					<pre><code>
 @browser.text_field(:name => "q").set "search_text"
 @browser.text_field(:name => "q").click
 @browser.span(:class, "hl").wait_until_present
@@ -127,32 +119,57 @@ def  test_search():
 @visible_text.each do |s|
   s.text.downcase.should == keyword.downcase
 end
-</pre></code>
+				</code></pre>
 				</section>
-
-				<section>
-					<h3>API testing</h3>
-				</section>
-
+				
 				<section>
 					<h3>Behaviour Driven Testing</h3>
 				</section>
 
 				<section>
+				<p align="left">Sample Feature:</p>
+					<pre><code>
+#search.feature						
+Feature: To allow the users to search for free text
+  Scenario: Search for keyword 'echo'
+  Given that customer is on the home page
+  When he searches for 'echo'
+  Then he should see keyword 'echo' highlighted in the search results
+					</pre></code>
+				</section>
+
+				<section>
+					<p align="left">Sample test script:</p>
+					<p align="left"><small>./features/step_definitions/search.rb:</small></p>
+					<pre><code>
+Given(/^that customer am on the home page$/) do
+  @browser.goto(@url)
+end
+
+When(/^customer search for 'echo'$/) do
+  @browser.text_field(:name => "q").set "echo"
+ @browser.text_field(:name => "q").send_keys :return
+end
+
+Then(/^customer should see keyword 'echo' highlighted in the search results$/) do
+  @browser.spans(:class => "hl").each do |query|
+    query.text.should == "echo"
+  end
+end
+				</pre></code>
+				</section>
+
+				<section>
+					<h3>Tools you can use for BDT:</h3>
 					<ul>
 						<li>Cucumber</li>
 						<li>Lettuce</li>
 						<li>JBehave</li>
-						<li>and others</li>
 					</ul>
 				</section>
 
 				<section>
-					<h2>Unit testing</h2>
-					<ul>
-						<li>Rspec</li>
-						<li>PyUnit</li>
-						<li>Junit</li>
+					<h3>API testing</h3>
 				</section>
 
 				<section>
@@ -169,7 +186,29 @@ end
 				</section>
 
 				<section>
-					<h3> 10 OWASP rules</h3>
+					<h2>Jenkins</h2>
+					<p>Continuos Integration tool</p>
+				</section>
+
+				<section>
+					<h3>Easy steps:</h3>
+					<ul>
+						<li><a href= "https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins">Install Jenkins</a></li>
+						<li>Install necessary plugins</li>
+						<li>Create and configure the job</li>
+						<li>Schedule your builds</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Generating reports in Jenkins</h3>
+					<ul>
+					<li><a href= "https://github.com/masterthought/jenkins-cucumber-jvm-reports-plugin">Jenkins Cucumber JVM reports plugin</a></li>
+				</section>
+
+				<section>
+					<h2>Demo</h2>
+					
 				</section>
 
 
