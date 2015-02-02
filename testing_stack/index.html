@@ -15,6 +15,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
 		<link rel="stylesheet" media="all" href="css/reveal.min.css">
+		<link rel="stylesheet" media="all" href="css/base.css">
 		<link rel="stylesheet" media="all" href="css/theme/serif.css" id="theme">
 
 		<!-- For syntax highlighting -->
@@ -115,11 +116,11 @@ driver.close()
 				</section>
 
 				<section>
-					<h3>Behaviour Driven Testing</h3>
+					<h2>Behaviour Driven Testing</h2>
 				</section>
 
 				<section>
-					<h3>Cucumber</h3>
+					<h2>Cucumber</h2>
 				</section>
 
 				<section>
@@ -141,7 +142,7 @@ Feature: To be able to paste a snippet of text on fpaste successfully
 					<p align="left"><small>./features/step_definitions/paste.rb:</small></p>
 					<pre><code>
 Given(/^that I am on the home page$/) do
-  @browser.goto(@url)
+  @browser.goto("http://www.fpaste.org")
 end
 
 When(/^I input text in the textbox$/) do
@@ -154,11 +155,33 @@ end
 
 Then(/^a new paste should be created with the same text$/) do
   puts @browser.url
-  puts @browser.div(:class => "text").text
   @browser.div(:class => "text").text.should == "sample text here"
 end
 
 				</pre></code>
+				</section>
+
+				<section>
+					<p align="left">Executing Cukes:</p>
+					<p align="left"><small><code>$cucumber</code></small></p>
+					<img height = "300" width = "1000" src = "./images/cuke_terminal.png" >
+				</section>
+
+				<section>
+					<h2>Generating reports</h2>
+                    <pre><code>$ cucumber --format html --out reports/report.html </code></pre>
+                </section>
+
+				<section>
+					<p align = "left">Cucumber HTML report:</p>
+					<img height = "500" src="./images/cucumber_html_report1.png">
+				</section>
+
+				<section>
+					<h2> Demo </h2>
+					<br>
+					<h3>(Cucumber + Watir webdriver)</h3>
+					<p>Code available at: <a href = "https://github.com/anarang/fpaste_cuke">https://github.com/anarang/fpaste_cuke</a></p>
 				</section>
 
 				<section>
@@ -172,14 +195,7 @@ end
 				</section>
 
 				<section>
-					<h2> Demo </h2>
-					<br>
-					<h3>(Cucumber + Watir webdriver)</h3>
-					<p>Code available at: <a href = "https://github.com/anarang/fpaste_cuke">https://github.com/anarang/fpaste_cuke</a></p>
-				</section>
-
-				<section>
-					<h3>Let's lest the REST API endpoints</h3>
+					<h3>Testing the REST API endpoints</h3>
 				</section>
 
 				<section>
@@ -195,22 +211,23 @@ end
 				<section>
 					<h3>Using HTTParty (Ruby gem):</h3>
 					<pre><code>
-  @pasteid = "/api/json/177666/55550514/"
-  @var = HTTParty.get(@url + @pasteid)
-  if @var.code == 200
-  	puts "Status: OK"
-  else
- 	raise 'API Server not found'
-  end
+require 'httparty'
 
-  @api_response = JSON.parse(@var.body)["result"]
-  author = @api_response["author"]
-  data = @api_response["data"]
-  if author == "Anisha" and data == "hello API"
-    true
-  else
-    raise 'Incorrect results'
-  end
+@var = HTTParty.get("http://www.fpaste.org/api/json/177666/55550514/")
+if @var.code == 200
+  puts "Status: OK"
+else
+  raise 'API Server not found'
+end
+
+@api_response = JSON.parse(@var.body)["result"]
+author = @api_response["author"]
+data = @api_response["data"]
+if author == "Anisha" and data == "hello API"
+  true
+else
+  raise 'Incorrect response'
+end
 </code></pre>
 				</section>
 
@@ -220,10 +237,10 @@ end
 					<pre><code>
 Feature: To be able to use the API endpoints of fpaste.org
 
-	Scenario: To verify that the API endpoint 'show' gives accurate results
-	When I GET '/show' for id: XXXX
-	Then the response should be 200 OK
-	And I should be able to get details including Author and data
+  Scenario: To verify that the API endpoint 'show' gives accurate results
+  When I GET '/show' for id: XXXX
+  Then the response should be 200 OK
+  And I should be able to get details including Author and data
 	</code></pre>
 				</section>
 
@@ -255,10 +272,14 @@ Feature: To be able to use the API endpoints of fpaste.org
 
 				<section>
 					<h2>Demo</h2>
+					<h3>(with Jenkins Integration)</h3>
 					
 				</section>
 
-
+				<section>
+					<h3>Any Questions?</h3>
+				</section>
+				
 				<section>
 					<h2><strong>Thank You</strong><img src="./images/smiley.png" height="100" width= "100"></h2>
 
