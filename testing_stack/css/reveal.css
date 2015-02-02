@@ -311,7 +311,8 @@ body {
 .reveal pre code {
 	padding: 5px;
 	overflow: auto;
-	max-height: 400px;
+	font-size: 1.0em;
+	max-height: 1200px;
 	word-wrap: normal;
 }
 

@@ -40,30 +40,28 @@
 					<h2>Choose a testing stack that works for you</h2>
 					<h3></h3>
 					<p>
-						<small>Created by <a href = "https://twitter.com/anisha_narang">Anisha Narang</a> | <a href = "http://www.redhat.com">Red Hat Inc.</a></small></p>
+						<small>Created by <a href = "https://twitter.com/anisha_narang">Anisha Narang</a> | <a href = "http://www.redhat.com">Red Hat</a></small></p>
                         
 					
                     <p> <a href="http://devconf.cz/">Dev Conf. 2015, Brno </a></p>
 				</section>
 
 				<section>
-					<h2> Define goals for your tests </h2>
+					<h2>Understanding the application</h2>
 				</section>
 
 				<section>
-					<h2> Test Pyramid </h2>
-					<image src ="./images/pyramidnew.png">
+					<h2>Test Automation</h2>
+					<br>
+					<h3>is use of testing tool to control the execution of tests</h3>
 				</section>
 
 				<section>
-					<h3>Loving the ice cream cone?</h3>
-					<br>
-					<br>
-					<h2>Invert the pyramid</h2>
+					<h3>Quick look at the sample application..</h3>
 				</section>
-				
+
 				<section>
-					<h2>Front end testing</h2>
+					<h2>Web application testing</h2>
 				</section>
 
 				<section>
@@ -72,90 +70,94 @@
 					<ul>
 						<li>Selenium webdriver</li>
 						<li>Watir webdriver</li>
-						<li>Capybara</li>
 						<li>and others</li>
 					</ul>
 				</section>
 
 				<section>
 					<h3>Which programming language to use?</h3>
-
+					<br>
 					<p>Let's see some sample code...</p>
 				</section>
 
 				<section>
-					<h3>Selenium(Python) Fill in text in search box</h3>											<pre><code>
-#test_data.json
-[
-{"name": "echo","id": 1},{"name": "print","id": 2},{"name": "hello world","id": 3}   
-]
-					</code></pre>
-
+					<h3>Watir webdriver (Ruby)</h3>
 					<pre><code>
+require "watir-webdriver"
+require "rspec"
 
-def  test_search():  
-  with open(“test_data.json”) as data_file: 
-    data_text = json.load(data_file) 
-      for each in data_text: 
-        search_text = each["name"] 
-        var = driver.find_element_by_id("search_box")
-        var.clear()
-        var.send_keys("search_text") 
-        driver.find_element_by_name("search").click() 
-        element = driver.find_elements_by_class_name('hl') 
-        element_text = {z.text.lower() for z in element}
-        self.assertIn(search_text.lower(), element_text, "Search result does not match")
-             		</code></pre>
-             	</section>
+@browser = Watir::Browser.new :firefox
+@browser.goto("http://fpaste.org/")
+@browser.textarea(:id => "paste_data").send_keys("sample text here")
+@browser.button(:id => "paste_button").click
+puts @browser.url
+@browser.div(:class => "text").wait_until_present
+@browser.div(:class => "text").text.should == "sample text here"
+@browser.close
+					</pre></code>
+				</section>
 
-             	<section>
-             		<h3>Watir(Ruby)</h3>
+				<section>
+					<h3>Selenium (Python)</h3>
 					<pre><code>
-@browser.text_field(:name => "q").set "search_text"
-@browser.text_field(:name => "q").click
-@browser.span(:class, "hl").wait_until_present
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 
-@visible_text = @browser.spans(:class, "hl").select {|h| h.visible?}
-@visible_text.each do |s|
-  s.text.downcase.should == keyword.downcase
-end
+driver = webdriver.Firefox()
+driver.get("http://fpaste.org/")
+driver.find_element_by_id("paste_data").send_keys("sample text here")
+driver.find_element_by_id("paste_button").click
+print driver.url
+text_entered = driver.find_element_by_class_name("text").text
+assertEqual(text_entered, "sample text here", "Text mismatch")
+driver.close()		
 				</code></pre>
 				</section>
-				
+
 				<section>
 					<h3>Behaviour Driven Testing</h3>
 				</section>
 
 				<section>
+					<h3>Cucumber</h3>
+				</section>
+
+				<section>
 				<p align="left">Sample Feature:</p>
-					<pre><code>
-#search.feature						
-Feature: To allow the users to search for free text
-  Scenario: Search for keyword 'echo'
-  Given that customer is on the home page
-  When he searches for 'echo'
-  Then he should see keyword 'echo' highlighted in the search results
+				<p align="left"><small>./features/paste.feature:</small></p>
+					<pre><code>			
+Feature: To be able to paste a snippet of text on fpaste successfully
+
+	Scenario: To verify that I can paste a snippet of text on fpaste
+	Given that I am on the home page 
+	When I input text in the textbox
+	And I click on PASTE button
+	Then a new paste should be created with the same text
 					</pre></code>
 				</section>
 
 				<section>
 					<p align="left">Sample test script:</p>
-					<p align="left"><small>./features/step_definitions/search.rb:</small></p>
+					<p align="left"><small>./features/step_definitions/paste.rb:</small></p>
 					<pre><code>
-Given(/^that customer am on the home page$/) do
+Given(/^that I am on the home page$/) do
   @browser.goto(@url)
 end
 
-When(/^customer search for 'echo'$/) do
-  @browser.text_field(:name => "q").set "echo"
- @browser.text_field(:name => "q").send_keys :return
+When(/^I input text in the textbox$/) do
+  @browser.textarea(:id => "paste_data").send_keys("sample text here")
 end
 
-Then(/^customer should see keyword 'echo' highlighted in the search results$/) do
-  @browser.spans(:class => "hl").each do |query|
-    query.text.should == "echo"
-  end
+When(/^I click on PASTE button$/) do
+  @browser.button(:id => "paste_button").click
 end
+
+Then(/^a new paste should be created with the same text$/) do
+  puts @browser.url
+  puts @browser.div(:class => "text").text
+  @browser.div(:class => "text").text.should == "sample text here"
+end
+
 				</pre></code>
 				</section>
 
@@ -165,24 +167,69 @@ end
 						<li>Cucumber</li>
 						<li>Lettuce</li>
 						<li>JBehave</li>
+						<li>and others</li>
 					</ul>
 				</section>
 
 				<section>
-					<h3>API testing</h3>
+					<h2> Demo </h2>
+					<br>
+					<h3>(Cucumber + Watir webdriver)</h3>
+					<p>Code available at: <a href = "https://github.com/anarang/fpaste_cuke">https://github.com/anarang/fpaste_cuke</a></p>
 				</section>
 
 				<section>
-					<h3>Performance testing</h3>
+					<h3>Let's lest the REST API endpoints</h3>
 				</section>
 
 				<section>
+					<h3>Tools you can use:</h3>
+					<br>
 					<ul>
-						<li>Gatling</li>
-						<li>Curl</li>
-						<li>Apache Bench</li>
-						<li>JMeter</li>
+						<li>Postman (chrome plugin)</li>
+						<li>HTTParty (Ruby gem)</li>
+						<li>and others</li>
 					</ul>
+				</section>
+
+				<section>
+					<h3>Using HTTParty (Ruby gem):</h3>
+					<pre><code>
+  @pasteid = "/api/json/177666/55550514/"
+  @var = HTTParty.get(@url + @pasteid)
+  if @var.code == 200
+  	puts "Status: OK"
+  else
+ 	raise 'API Server not found'
+  end
+
+  @api_response = JSON.parse(@var.body)["result"]
+  author = @api_response["author"]
+  data = @api_response["data"]
+  if author == "Anisha" and data == "hello API"
+    true
+  else
+    raise 'Incorrect results'
+  end
+</code></pre>
+				</section>
+
+				<section>
+				<p align="left">Sample Feature:</p>
+				<p align="left"><small>./features/api_show.feature:</small></p>
+					<pre><code>
+Feature: To be able to use the API endpoints of fpaste.org
+
+	Scenario: To verify that the API endpoint 'show' gives accurate results
+	When I GET '/show' for id: XXXX
+	Then the response should be 200 OK
+	And I should be able to get details including Author and data
+	</code></pre>
+				</section>
+
+				<section>
+				<h3>Demo</h3>
+				<p>Code available at: <a href="https://github.com/anarang/api_fpaste">https://github.com/anarang/api_fpaste</a></p>
 				</section>
 
 				<section>
@@ -216,8 +263,8 @@ end
 					<h2><strong>Thank You</strong><img src="./images/smiley.png" height="100" width= "100"></h2>
 
 					<p><a href =
-                    "http://www.twitter.com/anisha_narang">@anisha_narang</a> | anarang@redhat.com</p>
-					
+                    "http://www.twitter.com/anisha_narang">@anisha_narang</a></p>
+					<p> Slides available at: <a href ="http://anarang.github.io/testing_stack/">http://anarang.github.io/testing_stack/</a></p>
 				</section>
 
 				
