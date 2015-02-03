@@ -82,6 +82,23 @@
 				</section>
 
 				<section>
+					<h3>Selenium (Python)</h3>
+					<pre><code>
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
+import unittest
+
+driver = webdriver.Firefox()
+driver.get("http://fpaste.org/")
+driver.find_element_by_id("paste_data").send_keys("sample text here")
+driver.find_element_by_id("paste_button").click
+text_entered = driver.find_element_by_class_name("text").text
+assertEqual(text_entered, "sample text here", "Text mismatch")
+driver.close()		
+				</code></pre>
+				</section>
+
+				<section>
 					<h3>Watir webdriver (Ruby)</h3>
 					<pre><code>
 require "watir-webdriver"
@@ -91,7 +108,6 @@ require "rspec"
 @browser.goto("http://fpaste.org/")
 @browser.textarea(:id => "paste_data").send_keys("sample text here")
 @browser.button(:id => "paste_button").click
-puts @browser.url
 @browser.div(:class => "text").wait_until_present
 @browser.div(:class => "text").text.should == "sample text here"
 @browser.close
@@ -99,29 +115,32 @@ puts @browser.url
 				</section>
 
 				<section>
-					<h3>Selenium (Python)</h3>
-					<pre><code>
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-
-driver = webdriver.Firefox()
-driver.get("http://fpaste.org/")
-driver.find_element_by_id("paste_data").send_keys("sample text here")
-driver.find_element_by_id("paste_button").click
-print driver.url
-text_entered = driver.find_element_by_class_name("text").text
-assertEqual(text_entered, "sample text here", "Text mismatch")
-driver.close()		
-				</code></pre>
-				</section>
-
-				<section>
 					<h2>Behaviour Driven Testing</h2>
 				</section>
 
 				<section>
-					<h2>Cucumber</h2>
+					<h3>Tools you can use for BDT:</h3>
+					<ul>
+						<li>Cucumber</li>
+						<li>RSpec</li>
+						<li>Lettuce</li>
+						<li>JBehave</li>
+					</ul>
 				</section>
+
+				<section>
+					<h2>Cucumber</h2>
+					<br>
+					<ul>
+						<li>Features</li>
+						<li>Scenarios</li>
+						<li>Steps</li>
+						<li>Step definitions</li>
+						<li>Automation library</li>
+					</ul>
+				</section>
+
+				
 
 				<section>
 				<p align="left">Sample Feature:</p>
@@ -129,11 +148,11 @@ driver.close()
 					<pre><code>			
 Feature: To be able to paste a snippet of text on fpaste successfully
 
-	Scenario: To verify that I can paste a snippet of text on fpaste
-	Given that I am on the home page 
-	When I input text in the textbox
-	And I click on PASTE button
-	Then a new paste should be created with the same text
+Scenario: To verify that I can paste a snippet of text on fpaste
+Given that I am on the home page 
+When I input text in the textbox
+And I click on PASTE button
+Then a new paste should be created with the same text
 					</pre></code>
 				</section>
 
@@ -154,28 +173,25 @@ When(/^I click on PASTE button$/) do
 end
 
 Then(/^a new paste should be created with the same text$/) do
-  puts @browser.url
   @browser.div(:class => "text").text.should == "sample text here"
 end
 
 				</pre></code>
 				</section>
 
-				<section>
-					<p align="left">Executing Cukes:</p>
-					<p align="left"><small><code>$cucumber</code></small></p>
-					<img height = "300" width = "1000" src = "./images/cuke_terminal.png" >
-				</section>
+				<!--section>
+					<!--<img height = "300" width = "1314" src = "./images/cuke_terminal.png" >>
+				</section-->
 
 				<section>
 					<h2>Generating reports</h2>
                     <pre><code>$ cucumber --format html --out reports/report.html </code></pre>
                 </section>
 
-				<section>
+				<!--section>
 					<p align = "left">Cucumber HTML report:</p>
 					<img height = "500" src="./images/cucumber_html_report1.png">
-				</section>
+				</section-->
 
 				<section>
 					<h2> Demo </h2>
@@ -184,15 +200,7 @@ end
 					<p>Code available at: <a href = "https://github.com/anarang/fpaste_cuke">https://github.com/anarang/fpaste_cuke</a></p>
 				</section>
 
-				<section>
-					<h3>Tools you can use for BDT:</h3>
-					<ul>
-						<li>Cucumber</li>
-						<li>Lettuce</li>
-						<li>JBehave</li>
-						<li>and others</li>
-					</ul>
-				</section>
+
 
 				<section>
 					<h3>Testing the REST API endpoints</h3>
@@ -202,33 +210,10 @@ end
 					<h3>Tools you can use:</h3>
 					<br>
 					<ul>
+						<li>Curl (command line tool)</li>
 						<li>Postman (chrome plugin)</li>
 						<li>HTTParty (Ruby gem)</li>
-						<li>and others</li>
 					</ul>
-				</section>
-
-				<section>
-					<h3>Using HTTParty (Ruby gem):</h3>
-					<pre><code>
-require 'httparty'
-
-@var = HTTParty.get("http://www.fpaste.org/api/json/177666/55550514/")
-if @var.code == 200
-  puts "Status: OK"
-else
-  raise 'API Server not found'
-end
-
-@api_response = JSON.parse(@var.body)["result"]
-author = @api_response["author"]
-data = @api_response["data"]
-if author == "Anisha" and data == "hello API"
-  true
-else
-  raise 'Incorrect response'
-end
-</code></pre>
 				</section>
 
 				<section>
@@ -242,6 +227,36 @@ Feature: To be able to use the API endpoints of fpaste.org
   Then the response should be 200 OK
   And I should be able to get details including Author and data
 	</code></pre>
+				</section>
+
+				<section>
+					<h3>Using HTTParty (Ruby gem):</h3>
+					<br>
+					<p align="left"><small>./features/step_definitions/api_show.rb:</small></p>
+					<pre><code>
+When(/^I GET '\/show' for id: XXXX$/) do
+  @var = HTTParty.get("http://www.fpaste.org/api/json/177666/55550514/")
+end
+
+Then(/^the response should be (\d+) OK$/) do |arg1|
+  if @var.code == 200
+    puts "Status: OK"
+  else
+    raise 'API Server not found'
+  end
+end
+
+Then(/^I should be able to get details including Author and data$/) do
+  @api_response = JSON.parse(@var.body)["result"]
+  author = @api_response["author"]
+  data = @api_response["data"]
+  if author == "Anisha" and data == "hello API"
+    true
+  else
+    raise 'Incorrect results'
+  end
+end
+</code></pre>
 				</section>
 
 				<section>
@@ -279,7 +294,7 @@ Feature: To be able to use the API endpoints of fpaste.org
 				<section>
 					<h3>Any Questions?</h3>
 				</section>
-				
+
 				<section>
 					<h2><strong>Thank You</strong><img src="./images/smiley.png" height="100" width= "100"></h2>
 
