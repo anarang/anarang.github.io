@@ -44,7 +44,7 @@
 						<small>Created by <a href = "https://twitter.com/anisha_narang">Anisha Narang</a> | <a href = "http://www.redhat.com">Red Hat</a></small></p>
                         
 					
-                    <p> <a href="http://devconf.cz/">Dev Conf. 2015, Brno </a></p>
+                    <p> <a href="http://aerogear-t-p0m4ltkxhabisbbdxtp9o5lv-dev.ac.gen.ric.feedhenry.com/">QEcamp 2015, Brno </a></p>
 				</section>
 
 				<section>
@@ -90,10 +90,10 @@ import unittest
 
 driver = webdriver.Firefox()
 driver.get("http://fpaste.org/")
-driver.find_element_by_id("paste_data").send_keys("sample text here")
+driver.find_element_by_id("paste_data").send_keys("I am at QE camp")
 driver.find_element_by_id("paste_button").click
 text_entered = driver.find_element_by_class_name("text").text
-assertEqual(text_entered, "sample text here", "Text mismatch")
+assertEqual(text_entered, "I am at QE camp", "Text mismatch")
 driver.close()		
 				</code></pre>
 				</section>
@@ -106,10 +106,10 @@ require "rspec"
 
 @browser = Watir::Browser.new :firefox
 @browser.goto("http://fpaste.org/")
-@browser.textarea(:id => "paste_data").send_keys("sample text here")
+@browser.textarea(:id => "paste_data").send_keys("I am at QE camp")
 @browser.button(:id => "paste_button").click
 @browser.div(:class => "text").wait_until_present
-@browser.div(:class => "text").text.should == "sample text here"
+@browser.div(:class => "text").text.should == "I am at QE camp"
 @browser.close
 					</pre></code>
 				</section>
@@ -165,7 +165,7 @@ Given(/^that I am on the home page$/) do
 end
 
 When(/^I input text in the textbox$/) do
-  @browser.textarea(:id => "paste_data").send_keys("sample text here")
+  @browser.textarea(:id => "paste_data").send_keys("QE camp is awesome")
 end
 
 When(/^I click on PASTE button$/) do
@@ -173,7 +173,7 @@ When(/^I click on PASTE button$/) do
 end
 
 Then(/^a new paste should be created with the same text$/) do
-  @browser.div(:class => "text").text.should == "sample text here"
+  @browser.div(:class => "text").text.should == "QE camp is awesome"
 end
 
 				</pre></code>
@@ -200,7 +200,16 @@ end
 					<p>Code available at: <a href = "https://github.com/anarang/fpaste_cuke">https://github.com/anarang/fpaste_cuke</a></p>
 				</section>
 
-
+				<section>
+					<h3>Points to remember:</h3>
+					<br>
+					<ul>
+						<li>Keep your code DRY</li>
+						<li>Are you putting your code to sleep?</li>
+						<li>Choose your locator elements carefully</li>
+						<li>Organise your code well</li>
+					</ul>
+				</section>
 
 				<section>
 					<h3>Testing the REST API endpoints</h3>
@@ -213,6 +222,7 @@ end
 						<li>Curl (command line tool)</li>
 						<li>Postman (chrome plugin)</li>
 						<li>HTTParty (Ruby gem)</li>
+						<li>Requests (Python module)</li>
 					</ul>
 				</section>
 
@@ -299,10 +309,9 @@ end
 					<h2><strong>Thank You</strong><img src="./images/smiley.png" height="100" width= "100"></h2>
 
 					<p><a href =
-                    "http://www.twitter.com/anisha_narang">@anisha_narang</a></p>
+                    "http://www.twitter.com/anisha_narang">@anisha_narang</a> | anarang@redhat.com</p>
 					<p> Slides available at: <a href ="http://anarang.github.io/testing_stack/">http://anarang.github.io/testing_stack/</a></p>
-					<br>
-					<p>Feedback link: <a href= "http://devconf.cz/f/68">http://devconf.cz/f/68</a></p>
+					
 				</section>
 
 				
@@ -325,7 +334,7 @@ end
 				center: true,
 
 				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-				transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
 
 				// Optional libraries used to extend on reveal.js
 				dependencies: [
