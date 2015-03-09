@@ -87,40 +87,7 @@
 				</section>
 
 				<section>
-					<h3>#Code snippet comaprison<h3>
-				</section>
-
-				<section>
-					<h3>Selenium (Python)</h3>
-					<pre><code>
-from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-import unittest
-
-driver = webdriver.Firefox()
-driver.get("http://fpaste.org/")
-driver.find_element_by_id("paste_data").send_keys("I am at QE camp")
-driver.find_element_by_id("paste_button").click
-text_entered = driver.find_element_by_class_name("text").text
-assertEqual(text_entered, "I am at QE camp", "Text mismatch")
-driver.close()		
-				</code></pre>
-				</section>
-
-				<section>
-					<h3>Watir webdriver (Ruby)</h3>
-					<pre><code>
-require "watir-webdriver"
-require "rspec"
-
-@browser = Watir::Browser.new :firefox
-@browser.goto("http://fpaste.org/")
-@browser.textarea(:id => "paste_data").send_keys("I am at QE camp")
-@browser.button(:id => "paste_button").click
-@browser.div(:class => "text").wait_until_present
-@browser.div(:class => "text").text.should == "I am at QE camp"
-@browser.close
-					</pre></code>
+					<img src="./images/selenium_watir_code.png" width="1500">
 				</section>
 
 				<section>
@@ -169,7 +136,7 @@ require "rspec"
 				</section>
 
 				<section>
-					<h2><strong>Thank You</strong><img src="./images/smiley.png" height="100" width= "100"></h2>
+					<h2><strong>Thank You</strong><img class="smiley" src="./images/smiley.png" height="100" width= "100"></h2>
 
 					<p><a href =
                     "http://www.twitter.com/anisha_narang">@anisha_narang</a> | anarang@redhat.com</p>
@@ -195,6 +162,7 @@ require "rspec"
 				progress: true,
 				history: true,
 				center: true,
+				width: 1400,
 
 				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
 				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none

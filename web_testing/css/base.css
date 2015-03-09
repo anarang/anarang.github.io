@@ -4,3 +4,6 @@
 	font-size: 110%;
 	line-height: 1.1;
 }
+.reveal section img.smiley {
+	background-color: transparent;
+}
