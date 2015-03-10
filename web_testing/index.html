@@ -90,12 +90,14 @@
 					<img src="./images/selenium_watir_code.png" width="1500">
 				</section>
 
+				
+
 				<section>
 					<h3>Choose your element locators wisely!</h3>
 				</section>
 
 				<section>
-					<h3> Choose a testing framework that fits your requirements</h3>
+					<h3> Choose a testing framework now</h3>
 				</section>
 
 				<section>
@@ -103,15 +105,65 @@
 						<li>Py.test</li>
 						<li>unittest</li>
 						<li>Nose</li>
-						<li>Lettuce</li>
 						<li>Test::Unit</li>
-						<li>RSpec</li>
-						<li>Cucumber</li>
 						<li>TestNG</li>
 						<li>JUnit</li>
+						<li>RSpec</li>
+						<li>Cucumber</li>
+						<li>Lettuce</li>
 						<li>Jbehave</li>
 					</ul>
 				</section>
+
+				<section>
+					<h2>Cucumber</h2>
+					<br>
+					<ul>
+						<li>Features</li>
+						<li>Scenarios</li>
+						<li>Steps</li>
+						<li>Step definitions</li>
+						<li>Automation library</li>
+					</ul>
+				</section>
+
+				<section>
+				<p align="left">Sample Feature:</p>
+				<p align="left"><small>./features/paste.feature:</small></p>
+					<pre><code>			
+Feature: To be able to paste a snippet of text on fpaste successfully
+
+Scenario: To verify that I can paste a snippet of text on fpaste
+Given that I am on the home page 
+When I input text in the textbox
+And I click on PASTE button
+Then a new paste should be created with the same text
+					</pre></code>
+				</section>
+
+				<section>
+					<p align="left">Sample test script:</p>
+					<p align="left"><small>./features/step_definitions/paste.rb:</small></p>
+					<pre><code>
+Given(/^that I am on the home page$/) do
+  @browser.goto("http://www.fpaste.org")
+end
+
+When(/^I input text in the textbox$/) do
+  @browser.textarea(:id => "paste_data").send_keys("QE camp is awesome")
+end
+
+When(/^I click on PASTE button$/) do
+  @browser.button(:id => "paste_button").click
+end
+
+Then(/^a new paste should be created with the same text$/) do
+  @browser.div(:class => "text").text.should == "QE camp is awesome"
+end
+
+				</pre></code>
+				</section>
+				
 				<section>
 					<h2> Demo </h2>
 					<br>
