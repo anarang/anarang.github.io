@@ -1,0 +1,6 @@
+.reveal pre code {
+	max-height: 600px;
+	max-width: 1600px;
+	font-size: 110%;
+	line-height: 1.1;
+}
