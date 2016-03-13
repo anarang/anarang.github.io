@@ -61,8 +61,33 @@
 				</section>
 				
 				<section>
-					<h3> Job Definitions</h3>
-					<p> Job definitions for Jenkins Job Builder are kept in any number of YAML or JSON files</p>
+					<h3>Execution:</h3>
+					
+					<pre><code>jenkins-jobs test /path/to/jobs.yaml</code></pre>
+		
+					<pre><code>jenkins-jobs update /path/to/jobs.yaml</code></pre>
+					<pre><code>jenkins-jobs delete job-name </pre></code>
+
+				</section>
+
+				<section>
+					<h3>Configuration:</h3>
+					<pre><code>
+[job_builder]
+ignore_cache=True
+include_path=.:scripts
+allow_duplicates=False
+
+[jenkins]
+user=jenkins
+password=1234567890abcdef1234567890abcdef
+url=https://jenkins.example.com
+					</code></pre>
+				</section>
+
+				<section>
+					<h3 align="left"> Job Definitions</h3>
+					<p align= "left"> Job definitions for Jenkins Job Builder are kept in any number of YAML or JSON files</p>
 				</section>
 
 				<section>
