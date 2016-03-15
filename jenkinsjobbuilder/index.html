@@ -71,6 +71,13 @@
 				</section>
 
 				<section>
+					<h3> Let's write some JJB configurations... </h3>
+					<pre><code> git clone https://github.com/anarang/jjb</code></pre>
+
+					<pre><code>git checkout -b mybranch 571a86bf1f95ea66ef9b42471d12e3a51a392fd7</code></pre>
+				</section>
+
+				<section>
 					<h3>Configuration:</h3>
 					<pre><code>
 [job_builder]
@@ -86,22 +93,46 @@ url=http://vm-67-179-132-209.osop.rhcloud.com/
 				</section>
 
 				<section>
-					<h3> Let's write some... </h3>
-					<pre><code> git clone https://github.com/anarang/jjb</code></pre>
-
-					<pre><code>git checkout -b mybranch 571a86bf1f95ea66ef9b42471d12e3a51a392fd7</code></pre>
-				</section>
-
-
-				<section>
 					<h3 align="left"> Job Definitions</h3>
 					<p align= "left"> Job definitions for Jenkins Job Builder are kept in YAML files.</p>
+					<pre><code>
+- job:
+    name: job-name
+					</code></pre>
 				</section>
 
+				<section>
+					<h3 align="left"> Job Templates</h3>
+					<p align="left">A Job Template has the same syntax as a Job, but you may add variables anywhere in the definition.</p>
+					<pre><code>
+- job-template:
+    name: '{name}-jjb-tests'
+
+- project:
+    name: project-name
+    jobs:
+      - '{name}-jjb-tests'
+
+</code></pre>
+      				</section>
+
+      				<section>
+      				<h3>Modules</h3>
+      				<br>
+      				<ul>
+      				<li>parameters/properties</li>
+      				<li>scm</li>
+      				<li>triggers</li>
+      				<li>wrappers</li>
+      				<li>builders</li>
+      				<li>publishers</li>
+      				</ul>
+      				</section>
 				
 				<section>
-					
+				<h2> Demo</h2>	
 				</section>
+				
 				<section>
 					<h2><strong>Thank You</strong></h2>
 
