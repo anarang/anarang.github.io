@@ -106,12 +106,18 @@ url=http://vm-67-179-132-209.osop.rhcloud.com/
 					<p align="left">A Job Template has the same syntax as a Job, but you may add variables anywhere in the definition.</p>
 					<pre><code>
 - job-template:
-    name: '{name}-jjb-tests'
+    name: test-myname-{env}
+    project-type: freestyle
+    description: 'Created by Jenkins Job Builder'
 
 - project:
     name: project-name
+    env:
+        - stage
+        - prod
     jobs:
-      - '{name}-jjb-tests'
+        - test-myname-{env}
+
 
 </code></pre>
       				</section>
