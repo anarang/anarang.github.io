@@ -9,8 +9,8 @@
 title: Solo Travel Diaries
 name: Travel
 description: '' # write a nice description for your blog
-baseurl: '' # the subpath of your site, e.g. /blog
-url: '' # the base hostname & protocol for your site http://www.example.com
+baseurl: '/blog' # the subpath of your site, e.g. /blog
+url: 'http://anarang.github.io' # the base hostname & protocol for your site http://www.example.com
 # google_analytics: 'UA-XXXXXX-X'
 twitter_username: 'anisha_narang'
 
