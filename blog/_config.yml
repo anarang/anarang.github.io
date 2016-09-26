@@ -7,6 +7,7 @@
 
 # Site settings
 title: Solo Travel Diaries
+name: Travel
 description: '' # write a nice description for your blog
 baseurl: '' # the subpath of your site, e.g. /blog
 url: '' # the base hostname & protocol for your site http://www.example.com
