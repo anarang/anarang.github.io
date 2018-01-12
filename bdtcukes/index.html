@@ -1,0 +1,294 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>Biting into Cucumber + Watir</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<link rel="stylesheet" href="css/reveal.min.css">
+		<link rel="stylesheet" href="css/theme/serif.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<script>
+			document.write( '<link rel="stylesheet" href="css/print/' + ( window.location.search.match( /print-pdf/gi ) ? 'pdf' : 'paper' ) + '.css" type="text/css" media="print">' );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+				<section>
+					<h2>Biting</h2>
+					<h3>into</h3>
+					<h2>Cucumber + Watir</h2>
+					<p>
+						<small>Created by <a href="http://anishanarang.wordpress.com/">Anisha Narang</a> | <a href = "http://www.redhat.com">Red Hat Inc.</a></small></p>
+                        
+                    <p> <a href="http://www.nextgentesting.org/">Next Generation Testing Conference 2014, Pune </a></p>
+				</section>
+
+				<section>
+					<h3> Behavior Driven Development</h3>
+					<h3>(BDD)</h3>
+				</section>
+
+				<section>
+					<h3> Behavior Driven Testing</h3>
+					<h3>(BDT)</h3>
+				</section>
+
+				<section>
+					<h2>Cucumber</h2>
+				</section>
+
+				<section>
+					<h2> Why Cucumber?</h2>
+				</section>
+
+				<section>
+					<h3>Cucumber Testing Stack</h3>
+					<ul>
+						<li>Features</li>
+						<li>Scenarios</li>
+						<li>Steps</li>
+						<li>Step Definitions</li>
+						<li>Automation library</li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>How to start?</h2>
+					<ul>
+						<li class="fragment">Understand your goal</li>
+						<li class="fragment">Write Features, Scenarios and Steps</li>
+						<li class="fragment">Write Step Definitions and support code</li>
+						<li class= "fragment">Execute command: <code>$cucumber</code></li>
+					</ul>
+
+				</section>
+
+				<section>
+					<p>Quick look at the Sample Application!</p>
+				</section>
+
+		
+				<section>
+					<p align="left">Sample Feature:</p>
+					<pre><code>
+#search.feature						
+Feature: To allow the users to search for free text
+  Scenario: Search for keyword 'echo'
+  Given that I am on the home page
+  When I search for 'echo'
+  Then I should see keyword 'echo' highlighted in the search results
+					</pre></code>
+				</section>
+
+				<section>
+					<h3>Writing Step Definitions</h3>
+				</section>
+
+				<section>
+					<p align="left">Step Definition Outline:</p>
+					<pre><code>
+Given(/^that I am on the home page$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+When(/^I search for 'echo'$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+Then(/^I should see keyword 'echo' highlighted in the search results$/) do
+  pending # express the regexp above with the code you wish you had
+end
+
+					</pre></code>
+				</section>		
+
+				<section>
+					<h3>Organizing your code</h3>
+						<ul align = "left">
+							<li>Background</li>
+							<li>Data Tables</li>
+							<li>Tags</li>
+							<li>Subfolders</li>
+						</ul>
+						
+				</section>
+				
+
+				<section>
+					<h3>Time to interact with the browser!</h3>
+				</section>
+
+				<section>
+					<h2> <a href="http://watirwebdriver.com/">Watir Webdriver</a></h2>
+				</section>
+
+				<section>
+					<h3> To get started..</h3>
+					<pre><code>$sudo gem install watir-webdriver</code></pre>
+				</section>
+
+				<section>
+					<p align="left">Sample code:</p>
+					<pre><code>
+require 'watir-webdriver'
+
+browser = Watir::Browser.new :firefox
+browser.goto "www.example.com"
+browser.text_field(:id => 'id1').set 'sample text'
+browser.button(:name => "button1").click
+puts browser.url
+browser.close
+					</pre></code>
+					</section>
+
+				<section>
+					<h3>Building an approach</h3>
+					<ol>
+						<li>Understand the functionality</li>
+						<li>Decide which test cases to automate</li>
+						<li>Inspect the web page elements accordingly</li>
+						<li>Start writing your test script</li>
+					</ol>
+				</section>
+
+				<section>
+					<p align="left">Sample test script:</p>
+					<p align="left"><small>./features/step_definitions/search.rb:</small></p>
+					<pre><code>
+Given(/^that I am on the home page$/) do
+  @browser.goto(@url)
+end
+
+When(/^I search for 'echo'$/) do
+  @browser.text_field(:id => "livefilter-input").set "echo"
+  @browser.text_field(:id => "livefilter-input").send_keys :return
+end
+
+Then(/^I should see keyword 'echo' highlighted in the search results$/) do
+  @browser.spans(:class => "hl").each do |query|
+    query.text.should == "echo"
+  end
+end
+				</pre></code>
+				</section>
+
+				<section>
+					<p align="left">Console Output:</p>
+					<img height = 70% src="./images/tech_cuke.png">
+				</section>
+
+
+				<section>
+					<h2>Generating reports</h2>
+					<pre><code>$ cucumber --format html --out reports/report.html </code></pre>
+				</section>
+
+				<section>
+					<img height= "500"  src="./images/tech_cukereport.png">
+				</section>
+
+				<section>
+					<img height = "700" width = "1000" src="./images/tech.png">
+				</section>
+
+				<section>
+					<h2>Demo time</h2>
+					<p> Code available at:<a href="https://github.com/anarang/watir-cucumber">https://github.com/anarang/watir-cucumber</a></p>
+				</section>
+
+				<section>
+					<h2>Jenkins</h2>
+					<p>Continuos Integration tool</p>
+				</section>
+
+				<section>
+					<h3>Easy steps:</h3>
+					<ul>
+						<li><a href= "https://wiki.jenkins-ci.org/display/JENKINS/Installing+Jenkins">Install Jenkins</a></li>
+						<li>Install necessary plugins</li>
+						<li>Create and configure the job</li>
+						<li>Schedule your builds</li>
+					</ul>
+				</section>
+
+				<section>
+					<h3>Generating reports in Jenkins</h3>
+					<ul>
+					<li><a href= "https://github.com/masterthought/jenkins-cucumber-jvm-reports-plugin">Jenkins Cucumber JVM reports plugin</a></li>
+				</section>
+
+				<section>
+					<h2>Demo</h2>
+					<h3>(with Jenkins Integration)</h3>
+				</section>
+
+				<section>
+					<img src="./images/questions.png">
+				</section>
+
+				<section>
+					<h2><strong>Thank You</strong></h2>
+					<p><a href = "http://www.twitter.com/anisha_narang">@anisha_narang</a> | anarang@redhat.com</p>
+					<p>Slides available at: <a href= "http://goo.gl/Kd2vMR">http://bdtcukes-anarang.rhcloud.com/</a><p>
+				</section>
+
+			</div>
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+
+				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/showdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+					{ src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+					// { src: 'plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>
