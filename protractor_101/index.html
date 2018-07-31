@@ -107,11 +107,10 @@
           <div class="wrap alignleft">
             <h2><strong>What is Protractor?</strong></h2>
             <p class="text-intro">An end-to-end test framework for Angular and AngularJS applications</p>
-            <div class="bg-white shadow">
+            <div>
               <ul class="flexblock">
                 <li>
                   <h3>Protractor is built on top of WebDriverJS</h3>
-
                 </li>
                 <li>
                   <h3>Protractor supports Angular-specific locator strategies</h3>
@@ -149,6 +148,18 @@ webdriver-manager start</code></pre>
             <h2><strong>Writing your first test</strong></h2>
             <div class="grid vertical-align">
               <div class="column">
+                <p>Config file:</p>
+                <pre><code>
+// conf.js
+exports.config = {
+  seleniumAddress: 'http://localhost:4444/wd/hub',
+  specs: ['spec.js'],
+  framework: 'jasmine'
+}</code></pre>
+              </div>
+              <!-- .end .column -->
+
+              <div class="column">
                 <p> Spec file: </p>
                 <pre><code>
 // spec.js
@@ -161,18 +172,7 @@ describe('Sample application', function() {
 });</code></pre>
               </div>
               <!-- .end .column -->
-              <div class="column">
-                <p>Config file:</p>
-                <pre><code>
-// conf.js
-exports.config = {
-  framework: 'jasmine',
-  seleniumAddress: 'http://localhost:4444/wd/hub',
-  specs: ['spec.js']
-}</code></pre>
-              </div>
-              <!-- .end .column -->
-            </div>
+
             <!-- .end .grid -->
 
           </div>
@@ -186,7 +186,22 @@ exports.config = {
 protractor conf.js
 </code></pre>
           </div>
+          </section>
+
+          <section>
+            <div class="wrap">
+              <h1><strong>Demo</strong></h1>
+            </div>
+          </section>
+
+
+
+        <section>
+          <div class="wrap">
+            <h2><Strong>Understanding the essentials</strong></h2>
+          </div>
         </section>
+
 
         <section>
           <div class="wrap">
@@ -204,7 +219,7 @@ protractor conf.js
             <ul>
               <li> <strong>by.css('.myclass')</strong> : Find an element using a css selector</li>
               <br>
-              <li><strong>by.id('myid')</strong> : Find an element using a css selector.</li>
+              <li><strong>by.id('myid')</strong> : Find an element with a given id.</li>
               <br>
               <li><strong>by.model('name')</strong>: Find an element with a certain ng-model(Angular specific).</li>
               <br>
@@ -213,7 +228,36 @@ protractor conf.js
             </ul>
             <br>
             <br>
-            <p>Locators passed to element function:<code>element(by.css('some-css'));</code></p>
+            <p>Locators are passed to the <code>element</code> function:<code>element(by.css('some-css'));</code></p>
+          </div>
+        </section>
+
+        <section>
+          <div class="wrap">
+            <h2><strong>Actions </strong></h2>
+            <div class="grid vertical-align">
+              <div class="column">
+            <p class="text-intro"> The element() function returns an ElementFinder object. </p>
+            <pre><code>
+var ele = element(locator);
+
+// Click on the element.
+ele.click();
+
+// Send keys to the element (usually an input).
+ele.sendKeys('my text');
+</code></pre>
+</div>
+          <div class="column">
+          <p class="text-intro">Action methods return a promise.</p>
+          <pre><code>
+var ele = element(locator);
+ele.getText().then(function(text) {
+  console.log(text);
+});
+</code></pre>
+
+</div></div>
           </div>
         </section>
 
@@ -224,9 +268,10 @@ protractor conf.js
             <p class="text-intro">Jasmine is a behavior-driven development framework for testing JavaScript code.</p>
             <br>
             <pre><code>
-describe("A suite", function() {
-  it("contains spec with an expectation", function() {
-    var ele = element(by.id('inputbranch'));
+describe("Sample Application::", function() {
+  it("should match the text", function() {
+    var ele = element(by.id('text-intro'));
+
     expect(ele.getText()).toEqual("hello world");
   });
 });</code></pre>
@@ -238,9 +283,33 @@ describe("A suite", function() {
             <h2><strong>Understanding Promises and Control Flow</strong></h2>
             <br>
             <ul class="text-intro">
-              <li>WebDriverJS is an asynchronous API, where every command returns a promise.</li>
+              <li>WebDriverJS (and thus, Protractor) APIs are entirely asynchronous. All functions return <strong>promises</strong>.</li>
               <br>
-              <li>ControlFlow coordinates the scheduling and execution of commands operating on a queue. </li>
+              <li>WebDriverJS maintains a queue of pending promises, called the <strong>control flow</strong>, to keep execution organized.</li>
+            <ul>
+              <br>
+              <p>We dont need to write promises, the control flow mechanism of Protractor allows us to write promises in a synchronous way.</p>
+
+          </div>
+        </section>
+
+        <section>
+          <div class="wrap">
+            <h2>Promises</h2>
+            <br>
+            <p class="text-intro">Promises represent the eventual result of an operation.</p>
+            <p> Promises are objects. The Promise object is used for asynchronous computations. </p>
+            <p>Example code for understanding promises:</p>
+<pre><code>
+var promise = $http.get("/api/my/name");
+promise.success(function(name) {
+   console.log("Your name is: " + name);
+});
+promise.error(function(response, status) {
+   console.log("The request failed with response " + response + " and status code " + status);
+});
+</code></pre>
+
           </div>
         </section>
 
@@ -251,25 +320,26 @@ describe("A suite", function() {
                 <p class="text-intro">Without Control flow:</p>
 
                 <pre><code>
-driver.get(“http://www.google.com”).
+browser.get(“http://www.google.com”).
 then(function() {
-  return driver.findElement(webdriver.By.name('q'));
+  return element(by.id('q'));
 }).
-then(function(q) {
-  return q.sendKeys('webdriver');
+then(function(ele) {
+  return ele.sendKeys('webdriver');
 }).
 then(function() {
-  return driver.findElement(webdriver.By.name('btnG'));
-}).
+  return element(by.name('btnG')).click();
+})......
 </pre></code>
 </div>
               <div class="column">
                 <p class="text-intro"> With Control flow:</p>
 
                 <pre><code>
-driver.get(“http://www.google.com”);
-driver.findElement(webdriver.By.name('q')).sendKeys('webdriver');
-driver.findElement(webdriver.By.name('btnG')).click();
+browser.get(“http://www.google.com”);
+element(by.id('q')).sendKeys('webdriver');
+element(by.name('btnG')).click();
+......
 </pre></code>
 </div>
 
@@ -280,21 +350,25 @@ driver.findElement(webdriver.By.name('btnG')).click();
           <div class="wrap">
             <h2><strong>Page Object Pattern</strong></h2>
             <br>
-            <div class="grid vertical-align">
-                <ul>
+            <div class="grid sm">
+              <div class="column">
+
+                <ul class="flexblock specs">
                   <li> A Page Object simply models the page elements as objects within the test code.</li>
                   <li> Reduces the amount of duplicate code. </li>
                   <li>If the UI changes, the fix needs to be done at only one place.</li>
                 </ul>
+              </div>
+
               <div class="column">
                 <p class="text-intro"> Example for Without Page Object:</p>
                 <pre><code>
-describe('angularjs homepage', function() {
+describe('homepage', function() {
   it('should greet the named user', function() {
     browser.get('http://www.angularjs.org');
-    element(by.model('yourName')).sendKeys('Julie');
+    element(by.model('yourName')).sendKeys('Anisha');
     var greeting = element(by.binding('yourName'));
-    expect(greeting.getText()).toEqual('Hello Julie!');
+    expect(greeting.getText()).toEqual('Hello Anisha!');
   });
 });
 </pre></code>
@@ -339,9 +413,9 @@ describe('angularjs homepage', function() {
   it('should greet the named user', function() {
     angularHomepage.get();
 
-    angularHomepage.setName('Julie');
+    angularHomepage.setName('Anisha');
 
-    expect(angularHomepage.getGreetingText()).toEqual('Hello Julie!');
+    expect(angularHomepage.getGreetingText()).toEqual('Hello Anisha!');
   });
 });
 </code></pre>
@@ -349,199 +423,35 @@ describe('angularjs homepage', function() {
 </div>
 </section>
 
-
-
         <section>
           <div class="wrap">
-            <h2>Features</h2>
-            <ul class="flexblock features">
-              <li>
-                <div>
-                  <h2>
-                    <span>&rarr;</span>
-                    Simple Navigation
-                  </h2>
-                  with arrow keys, presenter...
-                </div>
-              </li>
-              <li>
-                <div>
-                  <h2>
-                    <svg class="fa-link">
-                      <use xlink:href="#fa-link"></use>
-                    </svg>
-                    Permalinks
-                  </h2>
-                  Go to a specific slide.
-                </div>
-              </li>
-              <li>
-                <div>
-                  <h2>
-                    <svg class="fa-clock-o">
-                      <use xlink:href="#fa-clock-o"></use>
-                    </svg>
-                    Slide Counter
-                  </h2>
-                  Current/Total number.
-                </div>
-              </li>
-              <li>
-                <div>
-                  <h2>
-                    <span>40<sup>+</sup></span>
-                    Beautiful Components
-                  </h2>
-                  Covers, cards, quotes...
-                </div>
-              </li>
-              <li>
-                <div>
-                  <h2>
-                    <svg class="fa-text-height">
-                      <use xlink:href="#fa-text-height"></use>
-                    </svg>
-                    Vertical Rhythm
-                  </h2>
-                  Use multiples of 8.
-                </div>
-              </li>
-              <li>
-                <div>
-                  <h2>
-                    <span>500<sup>+</sup></span>
-                    SVG Icons
-                  </h2>
-                  Font Awesome Kit.
-                </div>
-              </li>
+            <h2><strong> Let's sum it up..</strong> </h2>
+            <br>
+            <ul>
+              <li>Setting up Protractor is simple</li>
+              <li>Element locators are Angular friendly</li>
+              <li>Jasmine is based on BDD format</li>
+              <li>Control Flow</li>
+              <li>Following Page Object Pattern keeps it neat</li>
             </ul>
           </div>
         </section>
-        <section>
+
+
+
+
+
+
+        <section class="slide-center">
           <div class="wrap">
-            <h2><strong>WebSlides Demos</strong></h2>
-            <p>Contribute on <a href="https://github.com/webslides/webslides" title="Contribute on Github">Github</a>. <span class="alignright"><a href="demos/index.html" title="WebSlides Demos">View all &rsaquo;</a></span></p>
-            <ul class="flexblock gallery">
-              <li>
-                <a href="demos/why-webslides.html" title="Why WebSlides?">
-                  <figure>
-                    <img alt="Thumbnail Why WebSlides?" src="https://webslides.tv/static/images/demos-why.png">
-                    <figcaption>
-                      <h2>Why WebSlides?</h2>
-                    </figcaption>
-                  </figure>
-                </a>
-              </li>
-              <li>
-                <a href="demos/landings.html" title="Landings">
-                  <figure>
-                    <img alt="Thumbnail Landings" src="https://webslides.tv/static/images/demos-landings.png">
-                    <figcaption>
-                      <h2>Landings</h2>
-                    </figcaption>
-                  </figure>
-                </a>
-              </li>
-              <li>
-                <a href="demos/portfolios.html" title="Portfolios">
-                  <figure>
-                    <img alt="Thumbnail Portfolios" src="https://webslides.tv/static/images/demos-portfolios.png">
-                    <figcaption>
-                      <h2>Portfolios</h2>
-                    </figcaption>
-                  </figure>
-                </a>
-              </li>
-              <li>
-                <a href="demos/keynote.html" title="Apple Keynote">
-                  <figure>
-                    <img alt="Thumbnail Apple Keynote" src="https://webslides.tv/static/images/demos-apple.png">
-                    <figcaption>
-                      <h2>Apple Keynote</h2>
-                    </figcaption>
-                  </figure>
-                </a>
-              </li>
-            </ul>
-          </div>
-          <!-- .end .wrap -->
-        </section>
-        <section>
-          <div class="wrap">
-            <div class="grid vertical-align">
-              <div class="column">
-                <h4>
-                  <svg class="fa-life-ring">
-                    <use xlink:href="#fa-life-ring"></use>
-                  </svg>
-                  <strong>Guides</strong>
-                </h4>
-                <p>If you need help, here's just three tutorials. Just a basic knowledge of HTML is required:</p>
-                <ul class="description">
-                  <li><a href="demos/components.html" title="WebSlides Components">WebSlides Components</a>.</li>
-                  <li><a href="demos/classes.html" title="WebSlides Classes">WebSlides Classes</a>.</li>
-                  <li><a href="demos/media.html" title="WebSlides Media">WebSlides Media: images, videos...</a></li>
-                </ul>
-              </div>
-              <div class="column">
-                <figure><img class="aligncenter" src="static/images/setup.png" alt="WebSlides Files"></figure>
-              </div>
-              <div class="column">
-                <h4>
-                  <svg class="fa-cubes">
-                    <use xlink:href="#fa-cubes"></use>
-                  </svg>
-                  <strong>Built to expand</strong>
-                </h4>
-                <p>The best way to <strong>inspire with your content</strong> is to connect on a personal level:</p>
-                <ul class="description">
-                  <li>Background images: <a href="http://unsplash.com">Unsplash</a>.</li>
-                  <li>CSS animations: <a href="https://daneden.github.io/animate.css/">Animate.css</a>.</li>
-                  <li>Longforms: <a href="http://michalsnik.github.io/aos/"> Animate on scroll</a>.</li>
-                </ul>
-              </div>
-            </div>
-            <!--end .grid -->
-          </div>
-        </section>
-        <section class="aligncenter">
-          <!-- .wrap = container (width: 90%) -->
-          <div class="wrap">
-            <h2><strong>Ready to Start?</strong> </h2>
-            <p class="text-intro">Create your own presentation instantly. <br>120+ premium slides ready to use.</p>
-            <p>
-              <a href="https://webslides.tv/webslides-latest.zip" class="button" title="Download WebSlides">
-                <svg class="fa-cloud-download">
-                  <use xlink:href="#fa-cloud-download"></use>
-                </svg>
-                Free Download
-              </a>
-              <span class="try">
-                <a href="https://www.paypal.me/jlantunez/8" title="Thanks :)">
-                  <svg class="fa-paypal">
-                    <use xlink:href="#fa-paypal"></use>
-                  </svg>
-                  Pay what you want.
-                </a>
-              </span>
-            </p>
-          </div>
-          <!-- .end .wrap -->
-        </section>
-        <section class="slide-bottom">
-          <div class="wrap">
-            <div class="content-right text-serif">
-              <h2>
-                <strong>Thanks.</strong>
-                <a target="_blank" title="Share on Twitter" href="https://twitter.com/intent/tweet?text=Finally,%20everything%20you%20need%20to%20make%20HTML%20presentations%20in%20a%20fast/beautiful%20way.%20@WebSlides%20=%20Good%20karma%20&mdash;%20https://webslides.tv">
-                  <svg class="fa-twitter">
-                    <use xlink:href="#fa-twitter"></use>
-                  </svg>
-                </a>
-              </h2>
-              <p>People share content that makes them feel inspired. WebSlides is a very effective way to engage young audiences, customers, and teams.</p>
-              <p>Best,<br> <a href="https://twitter.com/jlantunez">@jlantunez</a>, <a href="https://twitter.com/belelros">@belelros</a>, and <a href="https://twitter.com/luissacristan">@luissacristan</a>.</p>
+            <div class="content-center text-serif">
+              <h2>Any questions?</h2>
+              <br>
+                <h1><strong>Thank You :-)</strong></h1>
+                <br>
+
+              <p>@anisha_narang</p>
+
             </div>
             <!-- .end .content-right -->
           </div>
