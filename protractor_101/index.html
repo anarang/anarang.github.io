@@ -202,6 +202,22 @@ protractor conf.js
           </div>
         </section>
 
+        <section>
+          <div class="wrap">
+            <h2><strong>Jasmine</strong></h2>
+            <br>
+            <p class="text-intro">Jasmine is a behavior-driven development framework for testing JavaScript code.</p>
+            <br>
+            <pre><code>
+describe("Sample Application::", function() {
+  it("should match the text", function() {
+    var ele = element(by.id('text-intro'));
+
+    expect(ele.getText()).toEqual("hello world");
+  });
+});</code></pre>
+          </div>
+        </section>
 
         <section>
           <div class="wrap">
@@ -229,6 +245,14 @@ protractor conf.js
             <br>
             <br>
             <p>Locators are passed to the <code>element</code> function:<code>element(by.css('some-css'));</code></p>
+          </div>
+        </section>
+
+        <section>
+          <div class="wrap">
+            <p><code>element(by.model('yourName'));</code><p>
+
+            <img src="./images/dom_screenshot.png">
           </div>
         </section>
 
@@ -263,23 +287,6 @@ ele.getText().then(function(text) {
 
         <section>
           <div class="wrap">
-            <h2><strong>Jasmine</strong></h2>
-            <br>
-            <p class="text-intro">Jasmine is a behavior-driven development framework for testing JavaScript code.</p>
-            <br>
-            <pre><code>
-describe("Sample Application::", function() {
-  it("should match the text", function() {
-    var ele = element(by.id('text-intro'));
-
-    expect(ele.getText()).toEqual("hello world");
-  });
-});</code></pre>
-          </div>
-        </section>
-
-        <section>
-          <div class="wrap">
             <h2><strong>Understanding Promises and Control Flow</strong></h2>
             <br>
             <ul class="text-intro">
@@ -297,9 +304,17 @@ describe("Sample Application::", function() {
           <div class="wrap">
             <h2>Promises</h2>
             <br>
-            <p class="text-intro">Promises represent the eventual result of an operation.</p>
-            <p> Promises are objects. The Promise object is used for asynchronous computations. </p>
-            <p>Example code for understanding promises:</p>
+            <div class="grid sm">
+              <div class="column">
+                <ul class="description">
+
+            <li><strong>Promises represent the eventual result of an operation.</strong></li>
+            <br>
+            <li> Promises are objects. The Promise object is used for asynchronous computations. </li>
+          </ul>
+        </div>
+        <div class="column">
+            <pre>Example code for understanding promises:</pre>
 <pre><code>
 var promise = $http.get("/api/my/name");
 promise.success(function(name) {
@@ -311,6 +326,7 @@ promise.error(function(response, status) {
 </code></pre>
 
           </div>
+        </div>
         </section>
 
         <section>
@@ -425,6 +441,31 @@ describe('angularjs homepage', function() {
 
         <section>
           <div class="wrap">
+            <h2><strong>Protractor Browser Logs Assertion</strong></h2>
+            <p> Allows asserting the browser console logs in each test for warnings and errors.</p>
+            <pre><code>npm install protractor-browser-logs</code></pre>
+
+
+<pre><code>var browserLogs = require('protractor-browser-logs');
+
+var verifyBrowserConsoleLogs = function() {
+  var logs = browserLogs(browser);
+
+  beforeEach(function() {
+    logs.reset();
+    logs.ignore(<regex>);
+  });
+
+  afterEach(function() {
+    return logs.verify();
+  });
+};
+</code></pre>
+</div>
+        </section>
+
+        <section>
+          <div class="wrap">
             <h2><strong> Let's sum it up..</strong> </h2>
             <br>
             <ul>
@@ -432,7 +473,8 @@ describe('angularjs homepage', function() {
               <li>Element locators are Angular friendly</li>
               <li>Jasmine is based on BDD format</li>
               <li>Control Flow</li>
-              <li>Following Page Object Pattern keeps it neat</li>
+              <li>Following Page Object Pattern, DRY</li>
+              <li>Protractor Browser Logs </li>
             </ul>
           </div>
         </section>
