@@ -280,8 +280,10 @@ ele.sendKeys('my text');
 </code></pre>
 </div>
           <div class="column">
-          <p class="text-intro">Action methods return a promise.</p>
+          <p class="text-intro">Since all actions are asynchrounous, all action methods return a promise.</p>
           <pre><code>
+//log the text of an element
+
 var ele = element(locator);
 ele.getText().then(function(text) {
   console.log(text);
@@ -460,7 +462,6 @@ var verifyBrowserConsoleLogs = function() {
 
   beforeEach(function() {
     logs.reset();
-    logs.ignore(<regex>);
   });
 
   afterEach(function() {
