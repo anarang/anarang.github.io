@@ -95,6 +95,7 @@
             <br>
             <br>
             <br>
+            <br>
             <h4 class="content-left"><a href="http://anishanarang.com/">Anisha Narang</a><br>
               Red Hat Inc.  |  <a href="https://twitter.com/anisha_narang">@anisha_narang </a>
             </h4>
@@ -197,7 +198,9 @@ protractor conf.js
           <section class="fullscreen slide" style="display: none;">
           <!-- Fullscreen Video -->
           <div class="embed">
-            <iframe frameborder="0" allowfullscreen="1" allow="autoplay; encrypted-media" title="Demo video" width="640" height="360" src="./images/test-demo.webm" id="widget14"></iframe>
+            <!--iframe frameborder="0" allowfullscreen="1" allow="autoplay; encrypted-media" title="Demo video" width="640" height="360" src="./images/test-demo-1.mov" id="w"></iframe-->
+            <video controls="controls" width="800" height="600"
+       name="Video Name" src="./images/test-demo-1.mov"></video>
           </div>
           <!-- .end .embed -->
         </section>
@@ -474,6 +477,18 @@ var verifyBrowserConsoleLogs = function() {
 
         <section>
           <div class="wrap">
+            <h2><strong>Generating reports</strong></h2>
+            <pre><code>
+$ npm install jasmine-spec-reporter
+$ npm install protractor-jasmine2-html-reporter
+</code></pre>
+<br>
+            <img src="./images/htmlreport.png">
+          </div>
+        </section>
+
+        <section>
+          <div class="wrap">
             <h2><strong> Let's sum it up..</strong> </h2>
             <br>
             <ul>
@@ -483,6 +498,7 @@ var verifyBrowserConsoleLogs = function() {
               <li>Control Flow</li>
               <li>Following Page Object Pattern, DRY</li>
               <li>Protractor Browser Logs </li>
+              <li>Generating HTML reports</li>
             </ul>
           </div>
         </section>
@@ -495,7 +511,7 @@ var verifyBrowserConsoleLogs = function() {
                 <h1><strong>Thank You :-)</strong></h1>
                 <br>
 
-              <p>@anisha_narang</p>
+              <p><a href="https://twitter.com/anisha_narang">@anisha_narang</a></p>
               <p>Slides available at: <a href="http://anarang.github.io/protractor_101/#slide=1">https://goo.gl/Cfi8DW</a></p>
 
             </div>
