@@ -53,31 +53,6 @@
 
   </head>
   <body>
-    <!-- <header role="banner">
-      <nav role="navigation">
-        <p class="logo"><a href="index.html" title="WebSlides">WebSlides</a></p>
-        <ul>
-          <li class="github">
-            <a rel="external" href="https://github.com/webslides/webslides" title="Github">
-              <svg class="fa-github">
-                <use xlink:href="#fa-github"></use>
-              </svg>
-              <em>WebSlides</em>
-            </a>
-          </li>
-          <li class="twitter">
-            <a rel="external" href="https://twitter.com/webslides" title="Twitter">
-              <svg class="fa-twitter">
-                <use xlink:href="#fa-twitter"></use>
-              </svg>
-              <em>@WebSlides</em>
-            </a>
-          </li>
-          <!  <li class="dribbble"><a rel="external" href="http://dribbble.com/webslides" title="Dribbble"><svg class="fa-dribbble"><use xlink:href="#fa-dribbble"></use></svg> <em>webslides</em></a></li> -->
-        <!-- </ul>
-      </nav>
-    </header> -->
-
     <main role="main">
       <article id="webslides">
         <!-- Quick Guide
@@ -89,7 +64,7 @@
         <section>
 
           <!--.wrap = container (width: 90%) -->
-          <div class="wrap alignleft">
+          <div class="wrap alignleft center">
             <h1><strong>Protractor 101's: Quick and Easy</strong></h1>
             <br>
             <br>
@@ -98,9 +73,29 @@
             <br>
             <h4 class="content-left"><a href="http://anishanarang.com/">Anisha Narang</a><br>
               Red Hat Inc.  |  <a href="https://twitter.com/anisha_narang">@anisha_narang </a>
+              <br>
+              <br>
+              DevConf.IN, Bangalore 2018
             </h4>
           </div>
           <!-- .end .wrap -->
+        </section>
+
+        <section>
+          <div class="wrap">
+            <h2><strong>Agenda</strong> </h2>
+            <br>
+            <ul>
+              <li>Getting started with Protractor</li>
+              <li>Jasmine</li>
+              <li>Global variables and Element locators</li>
+              <li>Understanding Promises and Control Flow</li>
+              <li>Page Object Pattern</li>
+              <li>Protractor Browser Logs </li>
+              <li>Generating HTML reports</li>
+              <li>Demo</li>
+            </ul>
+          </div>
         </section>
 
         <section>
@@ -128,14 +123,17 @@
           <div class="wrap alignleft">
             <h2><strong>Getting started</strong></h2>
             <br>
+            <p class="text-intro">Installation:</p>
+
           <ul>
             <li> Use npm to install Protractor globally</li>
+<pre><code>$npm install -g protractor
 
-            <pre><code>
-npm install -g protractor
+$protractor --version
+> Version 5.1.1
 
-webdriver-manager update
-webdriver-manager start</code></pre>
+$webdriver-manager update
+$webdriver-manager start</code></pre>
 
 <br>
 
@@ -147,31 +145,38 @@ webdriver-manager start</code></pre>
           <!--.wrap = container (width: 90%) -->
           <div class="wrap">
             <h2><strong>Writing your first test</strong></h2>
-            <div class="grid vertical-align">
-              <div class="column">
-                <p>Config file:</p>
-                <pre><code>
-// conf.js
+            <!--div class="grid vertical-align"-->
+            <ul>
+              <li>Configuration file</li>
+              <li>Spec file</li>
+            </ul>
+            <br>
+
+                <p class="text-intro">Config file:</p>
+
+<pre><code>// conf.js
 exports.config = {
   seleniumAddress: 'http://localhost:4444/wd/hub',
   specs: ['spec.js'],
   framework: 'jasmine'
 }</code></pre>
-              </div>
-              <!-- .end .column -->
+</div>
+</section>
 
-              <div class="column">
-                <p> Spec file: </p>
-                <pre><code>
-// spec.js
-describe('Sample application', function() {
-  it('should have a title', function() {
-    browser.get('http://localhost:9000/');
+            <section>
+              <div class="wrap">
+                <p class="text-intro"> Spec file: </p>
 
-    expect(browser.getTitle()).toEqual('Sample application');
+<pre><code>// spec.js
+describe('Angular Sample application::', function() {
+  it('The resulting text should match "Hello Anisha!"', function() {
+    browser.get('https://angularjs.org/');
+    element(by.model('yourName')).sendKeys('Anisha');
+
+    expect(element(by.binding('yourName')).getText()).toEqual('Hello Anisha!');
   });
 });</code></pre>
-              </div>
+
               <!-- .end .column -->
 
             <!-- .end .grid -->
@@ -188,22 +193,6 @@ protractor conf.js
 </code></pre>
           </div>
           </section>
-
-          <section>
-            <div class="wrap">
-              <h1><strong>Demo</strong></h1>
-            </div>
-          </section>
-
-          <section class="fullscreen slide" style="display: none;">
-          <!-- Fullscreen Video -->
-          <div class="embed">
-            <!--iframe frameborder="0" allowfullscreen="1" allow="autoplay; encrypted-media" title="Demo video" width="640" height="360" src="./images/test-demo-1.mov" id="w"></iframe-->
-            <video controls="controls" width="800" height="600"
-       name="Video Name" src="./images/test-demo-1.mov"></video>
-          </div>
-          <!-- .end .embed -->
-        </section>
 
 
         <section>
@@ -328,9 +317,9 @@ ele.getText().then(function(text) {
         <div class="column">
             <pre>Example code for understanding promises:</pre>
 <pre><code>
-var promise = $http.get("/api/my/name");
-promise.success(function(name) {
-   console.log("Your name is: " + name);
+var promise = $http.get("/api/docs/&lt;id&gt;");
+promise.success(function(title) {
+   console.log("Title of the published doc: " + title);
 });
 promise.error(function(response, status) {
    console.log("The request failed with response " + response + " and status code " + status);
@@ -343,10 +332,11 @@ promise.error(function(response, status) {
 
         <section>
           <div class="wrap">
+            <h2>Control Flow </h2>
+            <p >Control Flow coordinates the scheduling and execution of commands operating on a queue.</p>
             <div class="grid vertical-align">
               <div class="column">
                 <p class="text-intro">Without Control flow:</p>
-
                 <pre><code>
 browser.get(“http://www.google.com”).
 then(function() {
@@ -489,19 +479,26 @@ $ npm install protractor-jasmine2-html-reporter
 
         <section>
           <div class="wrap">
-            <h2><strong> Let's sum it up..</strong> </h2>
+            <h1><strong>Demo</strong></h1>
             <br>
-            <ul>
-              <li>Setting up Protractor is simple</li>
-              <li>Element locators are Angular friendly</li>
-              <li>Jasmine is based on BDD format</li>
-              <li>Control Flow</li>
-              <li>Following Page Object Pattern, DRY</li>
-              <li>Protractor Browser Logs </li>
-              <li>Generating HTML reports</li>
-            </ul>
+            <br>
+            <br>
+            <br>
+            <p class="text-intro">Code available here: <a href="https://github.com/anarang/protractor101-demo">https://goo.gl/qJBiFH</a></p>
           </div>
         </section>
+
+        <section class="fullscreen slide" style="display: none;">
+        <!-- Fullscreen Video -->
+        <div class="embed">
+          <!--iframe frameborder="0" allowfullscreen="1" allow="autoplay; encrypted-media" title="Demo video" width="640" height="360" src="./images/test-demo-1.mov" id="w"></iframe-->
+          <video controls="controls" width="800" height="600"
+     name="Video Name" src="./images/test-demo-1.mov"></video>
+        </div>
+        <!-- .end .embed -->
+      </section>
+
+
 
         <section class="slide-center">
           <div class="wrap">
