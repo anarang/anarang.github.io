@@ -1,0 +1,552 @@
+<!doctype html>
+<html lang="en" prefix="og: http://ogp.me/ns#">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- SEO -->
+    <title>Protractor 101s: Quick and Easy</title>
+    <meta name="description" content="Presentation slides for DevConf 2018">
+
+    <!-- URL CANONICAL -->
+    <!-- <link rel="canonical" href="http://your-url.com/"> -->
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,700,700i%7CMaitree:200,300,400,600,700&amp;subset=latin-ext" rel="stylesheet">
+
+    <!-- CSS WebSlides -->
+    <link rel="stylesheet" type='text/css' media='all' href="static/css/webslides.css">
+
+    <!-- Optional - CSS SVG Icons (Font Awesome) -->
+    <link rel="stylesheet" type='text/css' media='all' href="static/css/svg-icons.css">
+
+    <!-- SOCIAL CARDS (ADD YOUR INFO) -->
+
+    <!-- FACEBOOK -->
+    <meta property="og:url" content="http://your-url.com/"> <!-- YOUR URL -->
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="WebSlides — Making HTML Presentations Easy"> <!-- EDIT -->
+    <meta property="og:description" content="WebSlides is about telling stories beautifully. Just the essential features. Good karma."> <!-- EDIT -->
+    <meta property="og:updated_time" content="2017-01-04T17:20:50"> <!-- EDIT -->
+    <meta property="og:image" content="static/images/share-webslides.jpg"> <!-- EDIT -->
+
+    <!-- TWITTER -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@webslides"> <!-- EDIT -->
+    <meta name="twitter:creator" content="@jlantunez"> <!-- EDIT -->
+    <meta name="twitter:title" content="WebSlides — Making HTML Presentations Easy"> <!-- EDIT -->
+    <meta name="twitter:description" content="WebSlides is about good karma. Just essential features. 120+ free slides ready to use."> <!-- EDIT -->
+    <meta name="twitter:image" content="static/images/share-webslides.jpg"> <!-- EDIT -->
+
+    <!-- FAVICONS -->
+    <link rel="shortcut icon" sizes="16x16" href="static/images/favicons/favicon.png">
+    <link rel="shortcut icon" sizes="32x32" href="static/images/favicons/favicon-32.png">
+    <link rel="apple-touch-icon icon" sizes="76x76" href="static/images/favicons/favicon-76.png">
+    <link rel="apple-touch-icon icon" sizes="120x120" href="static/images/favicons/favicon-120.png">
+    <link rel="apple-touch-icon icon" sizes="152x152" href="static/images/favicons/favicon-152.png">
+    <link rel="apple-touch-icon icon" sizes="180x180" href="static/images/favicons/favicon-180.png">
+    <link rel="apple-touch-icon icon" sizes="192x192" href="static/images/favicons/favicon-192.png">
+
+    <!-- Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#333333">
+
+  </head>
+  <body>
+    <main role="main">
+      <article id="webslides">
+        <!-- Quick Guide
+          - Each parent <section> in the <article id="webslides"> element is an individual slide.
+          - Vertical sliding = <article id="webslides" class="vertical">
+          - <div class="wrap"> = container 90% / <div class="wrap size-50"> = 45%;
+        -->
+
+        <section>
+
+          <!--.wrap = container (width: 90%) -->
+          <div class="wrap alignleft center">
+            <br>
+            <h1><strong>Web Application Testing with Protractor</strong></h1>
+            <br>
+            <br>
+            <br>
+            <br>
+            <br>
+            <h4 class="content-left"><a href="http://anishanarang.com/">Anisha Narang</a><br>
+
+              Red Hat Inc. | <a href="https://twitter.com/anisha_narang" title="Twitter">
+                @anisha_narang
+              </a>
+              <br>
+              <br>
+              DevConf.US, Boston 2018
+            </h4>
+          </div>
+          <!-- .end .wrap -->
+        </section>
+
+        <section>
+          <div class="wrap">
+            <h2><strong>Agenda</strong> </h2>
+            <br>
+            <ul>
+              <li>Getting started with Protractor</li>
+              <li>Jasmine</li>
+              <li>Global variables and Element locators</li>
+              <li>Understanding Promises and Control Flow</li>
+              <li>Page Object Pattern</li>
+              <li>Protractor Browser Logs </li>
+              <li>Generating HTML reports</li>
+              <li>Demo</li>
+            </ul>
+          </div>
+        </section>
+
+        <section>
+          <!--.wrap = container (width: 90%) -->
+          <div class="wrap alignleft">
+            <h2><strong>What is Protractor?</strong></h2>
+            <p class="text-intro">An end-to-end test framework for Angular and AngularJS applications</p>
+            <div>
+              <ul class="flexblock">
+                <li>
+                  <h3>Protractor is built on top of WebDriverJS</h3>
+                </li>
+                <li>
+                  <h3>Protractor supports Angular-specific locator strategies</h3>
+
+                </li>
+              </ul>
+            </div>
+            <!-- .end .bg-white shadow -->
+          </div>
+          <!-- .end .wrap -->
+        </section>
+
+        <section>
+          <div class="wrap alignleft">
+            <h2><strong>Getting started</strong></h2>
+            <br>
+            <p class="text-intro">Installation:</p>
+
+          <ul>
+            <li> Use npm to install Protractor globally</li>
+<pre><code>$npm install -g protractor
+
+$protractor --version
+> Version 5.1.1
+
+$webdriver-manager update
+$webdriver-manager start</code></pre>
+
+<br>
+
+            <li>The webdriver-manager will help you to get an instance of a Selenium Server running at <i>http://localhost:4444/wd/hub</i></li>
+          </div>
+        </section>
+
+        <section>
+          <!--.wrap = container (width: 90%) -->
+          <div class="wrap">
+            <h2><strong>Writing your first test</strong></h2>
+            <!--div class="grid vertical-align"-->
+            <ul>
+              <li>Configuration file</li>
+              <li>Spec file</li>
+            </ul>
+            <br>
+
+                <p class="text-intro">Config file:</p>
+
+<pre><code>// conf.js
+exports.config = {
+  seleniumAddress: 'http://localhost:4444/wd/hub',
+  specs: ['spec.js'],
+  framework: 'jasmine'
+}</code></pre>
+</div>
+</section>
+
+            <section>
+              <div class="wrap">
+                <p class="text-intro"> Spec file: </p>
+
+<pre><code>// spec.js
+describe('Angular Sample application::', function() {
+  it('The resulting text should match "Hello Anisha!"', function() {
+    browser.get('https://angularjs.org/');
+    element(by.model('yourName')).sendKeys('Anisha');
+
+    expect(element(by.binding('yourName')).getText()).toEqual('Hello Anisha!');
+  });
+});</code></pre>
+
+              <!-- .end .column -->
+
+            <!-- .end .grid -->
+
+          </div>
+          <!-- .end .wrap -->
+        </section>
+
+        <section>
+          <div class="wrap">
+            <p class="text-intro">Running the test(s):</p>
+            <pre><code>
+protractor conf.js
+</code></pre>
+          </div>
+          </section>
+
+
+        <section>
+          <div class="wrap">
+            <h2><Strong>Understanding the essentials</strong></h2>
+          </div>
+        </section>
+
+        <section>
+          <div class="wrap">
+            <h2><strong>Jasmine</strong></h2>
+            <br>
+            <p class="text-intro">Jasmine is a behavior-driven development framework for testing JavaScript code.</p>
+            <br>
+            <pre><code>
+describe("Sample Application::", function() {
+  it("should match the text", function() {
+    var ele = element(by.id('text-intro'));
+
+    expect(ele.getText()).toEqual("hello world");
+  });
+});</code></pre>
+          </div>
+        </section>
+
+        <section>
+          <div class="wrap">
+            <h2><strong>Global variables</strong></h2>
+            <ul class="description">
+              <li><strong>browser</strong>: A wrapper around an instance of WebDriver, used for navigation and page-wide information. </li>
+              <li><strong>element</strong>: A helper function for finding and interacting with DOM elements on the page you are testing.</li>
+              <li><strong>by</strong>: A collection of element locator strategies.</li>
+            </ul>
+        </section>
+
+        <section>
+          <div class="wrap">
+            <h2><strong>Element locators </strong></h2>
+            <ul>
+              <li> <strong>by.css('.myclass')</strong> : Find an element using a css selector</li>
+              <br>
+              <li><strong>by.id('myid')</strong> : Find an element with a given id.</li>
+              <br>
+              <li><strong>by.model('name')</strong>: Find an element with a certain ng-model(Angular specific).</li>
+              <br>
+              <li> <strong>by.binding('bindingname')</strong>: Find an element bound to the given variable(Angular specific).</li>
+
+            </ul>
+            <br>
+            <br>
+            <p>Locators are passed to the <code>element</code> function:<code>element(by.css('some-css'));</code></p>
+          </div>
+        </section>
+
+        <section>
+          <div class="wrap">
+            <p><code>element(by.model('yourName'));</code><p>
+
+            <img src="./images/dom_screenshot.png">
+          </div>
+        </section>
+
+        <section>
+          <div class="wrap">
+            <h2><strong>Actions </strong></h2>
+            <div class="grid vertical-align">
+              <div class="column">
+            <p class="text-intro"> The element() function returns an ElementFinder object. </p>
+            <pre><code>
+var ele = element(locator);
+
+// Click on the element.
+ele.click();
+
+// Send keys to the element (usually an input).
+ele.sendKeys('my text');
+</code></pre>
+</div>
+          <div class="column">
+          <p class="text-intro">Since all actions are asynchrounous, all action methods return a promise.</p>
+          <pre><code>
+//log the text of an element
+
+var ele = element(locator);
+ele.getText().then(function(text) {
+  console.log(text);
+});
+</code></pre>
+
+</div></div>
+          </div>
+        </section>
+
+        <section>
+          <div class="wrap">
+            <h2><strong>Understanding Promises and Control Flow</strong></h2>
+            <br>
+            <ul class="text-intro">
+              <li>WebDriverJS (and thus, Protractor) APIs are entirely asynchronous. All functions return <strong>promises</strong>.</li>
+              <br>
+              <li>WebDriverJS maintains a queue of pending promises, called the <strong>control flow</strong>, to keep execution organized.</li>
+            <ul>
+              <br>
+              <p>We dont need to write promises, the control flow mechanism of Protractor allows us to write promises in a synchronous way.</p>
+
+          </div>
+        </section>
+
+        <section>
+          <div class="wrap">
+            <h2>Promises</h2>
+            <br>
+            <div class="grid sm">
+              <div class="column">
+                <ul class="description">
+
+            <li><strong>Promises represent the eventual result of an operation.</strong></li>
+            <br>
+            <li> Promises are objects. The Promise object is used for asynchronous computations. </li>
+          </ul>
+        </div>
+        <div class="column">
+            <pre>Example code for understanding promises:</pre>
+<pre><code>
+var promise = $http.get("/api/docs/&lt;id&gt;");
+promise.success(function(title) {
+   console.log("Title of the published doc: " + title);
+});
+promise.error(function(response, status) {
+   console.log("The request failed with response " + response + " and status code " + status);
+});
+</code></pre>
+
+          </div>
+        </div>
+        </section>
+
+        <section>
+          <div class="wrap">
+            <h2>Control Flow </h2>
+            <p >Control Flow coordinates the scheduling and execution of commands operating on a queue.</p>
+            <div class="grid vertical-align">
+              <div class="column">
+                <p class="text-intro">Without Control flow:</p>
+                <pre><code>
+browser.get(“http://www.google.com”).
+then(function() {
+  return element(by.id('q'));
+}).
+then(function(ele) {
+  return ele.sendKeys('webdriver');
+}).
+then(function() {
+  return element(by.name('btnG')).click();
+})......
+</pre></code>
+</div>
+              <div class="column">
+                <p class="text-intro"> With Control flow:</p>
+
+                <pre><code>
+browser.get(“http://www.google.com”);
+element(by.id('q')).sendKeys('webdriver');
+element(by.name('btnG')).click();
+......
+</pre></code>
+</div>
+
+          </div>
+        </section>
+
+        <section>
+          <div class="wrap">
+            <h2><strong>Page Object Pattern</strong></h2>
+            <br>
+            <div class="grid sm">
+              <div class="column">
+
+                <ul class="flexblock specs">
+                  <li> A Page Object simply models the page elements as objects within the test code.</li>
+                  <li> Reduces the amount of duplicate code. </li>
+                  <li>If the UI changes, the fix needs to be done at only one place.</li>
+                </ul>
+              </div>
+
+              <div class="column">
+                <p class="text-intro"> Example for Without Page Object:</p>
+                <pre><code>
+describe('homepage', function() {
+  it('should greet the named user', function() {
+    browser.get('http://www.angularjs.org');
+    element(by.model('yourName')).sendKeys('Anisha');
+    var greeting = element(by.binding('yourName'));
+    expect(greeting.getText()).toEqual('Hello Anisha!');
+  });
+});
+</pre></code>
+            </div>
+          </div>
+        </section>
+
+        <section>
+          <div class="wrap">
+              <p class="text-intro"> With Page Object Pattern:</p>
+            <div class="grid vertical-align">
+
+              <div class="column">
+                <pre><code>
+#PageObjectFile.js:
+
+var AngularHomepage = function() {
+  var nameInput = element(by.model('yourName'));
+  var greeting = element(by.binding('yourName'));
+
+  this.get = function() {
+    browser.get('http://www.angularjs.org');
+  };
+
+  this.setName = function(name) {
+    nameInput.sendKeys(name);
+  };
+
+  this.getGreetingText = function() {
+    return greeting.getText();
+  };
+};
+module.exports = new AngularHomepage();
+</pre></code>
+</div>
+            <div class="column">
+              <pre><code>
+#Test.spec:
+
+var angularHomepage = require('./AngularHomepage');
+describe('angularjs homepage', function() {
+  it('should greet the named user', function() {
+    angularHomepage.get();
+
+    angularHomepage.setName('Anisha');
+
+    expect(angularHomepage.getGreetingText()).toEqual('Hello Anisha!');
+  });
+});
+</code></pre>
+</div>
+</div>
+</section>
+
+        <section>
+          <div class="wrap">
+            <h2><strong>Protractor Browser Logs Assertion</strong></h2>
+            <p> Allows asserting the browser console logs in each test for warnings and errors.</p>
+            <pre><code>npm install protractor-browser-logs</code></pre>
+
+
+<pre><code>var browserLogs = require('protractor-browser-logs');
+
+var verifyBrowserConsoleLogs = function() {
+  var logs = browserLogs(browser);
+
+  beforeEach(function() {
+    logs.reset();
+  });
+
+  afterEach(function() {
+    return logs.verify();
+  });
+};
+</code></pre>
+</div>
+        </section>
+
+        <section>
+          <div class="wrap">
+            <h2><strong>Generating reports</strong></h2>
+            <pre><code>
+$ npm install jasmine-spec-reporter
+$ npm install protractor-jasmine2-html-reporter
+</code></pre>
+<br>
+            <img src="./images/htmlreport.png">
+          </div>
+        </section>
+
+        <section>
+          <div class="wrap">
+            <h1><strong>Demo</strong></h1>
+            <br>
+            <br>
+            <br>
+            <br>
+            <p class="text-intro">Code available here: <a href="https://github.com/anarang/protractor101-demo">https://goo.gl/qJBiFH</a></p>
+          </div>
+        </section>
+
+        <section class="fullscreen slide" style="display: none;">
+        <!-- Fullscreen Video -->
+        <div class="embed">
+          <!--iframe frameborder="0" allowfullscreen="1" allow="autoplay; encrypted-media" title="Demo video" width="640" height="360" src="./images/test-demo-1.mov" id="w"></iframe-->
+          <video controls="controls" width="800" height="600"
+     name="Video Name" src="./images/test-demo-1.mov"></video>
+        </div>
+        <!-- .end .embed -->
+      </section>
+
+
+
+        <section class="slide-center">
+          <div class="wrap">
+            <div class="content-center text-serif">
+              <h2>Any questions?</h2>
+              <br>
+                <h1><strong>Thank You :-)</strong></h1>
+                <br>
+
+              <p><a href="https://twitter.com/anisha_narang" title="Twitter">
+                <svg class="fa-twitter">
+                  <use xlink:href="#fa-twitter"></use>
+                </svg>
+                @anisha_narang
+              </a></p>
+              <p>Slides available at: <a href="http://anarang.github.io/protractor/index.html">http://anarang.github.io/protractor/index.html</a></p>
+
+            </div>
+            <!-- .end .content-right -->
+          </div>
+          <!-- .end .wrap -->
+        </section>
+
+      </article>
+      <!-- end article -->
+    </main>
+    <!-- end main -->
+
+   <!-- A global footer
+
+     <footer role="contentinfo">
+      <div class="wrap">
+        <p>An <a href="https://github.com/webslides/webslides">open source solution</a>, by <a href="https://twitter.com/webslides">@webslides</a>.</p>
+      </div>
+    </footer>  -->
+
+    <!-- Required -->
+    <script src="static/js/webslides.js"></script>
+    <script>
+      window.ws = new WebSlides();
+    </script>
+
+    <!-- OPTIONAL - svg-icons.js (fontastic.me - Font Awesome as svg icons) -->
+    <script defer src="static/js/svg-icons.js"></script>
+
+  </body>
+</html>
