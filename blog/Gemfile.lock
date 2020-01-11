@@ -111,7 +111,7 @@ GEM
       forwardable-extended (~> 2.6)
     pkg-config (1.1.7)
     public_suffix (1.5.3)
-    puma (3.6.0)
+    puma (3.12.2)
     rack (1.6.4)
     rack-jekyll (0.5.0)
       jekyll (>= 1.3)
