@@ -83,7 +83,8 @@
                 <br>
                 <h4 class="content-left"><a href="http://anishanarang.com/">Anisha Narang</a><br>
                     Senior Quality Engineer <br>
-                    Red Hat Inc. | <a href="https://twitter.com/anisha_narang" title="Twitter">
+                    Red Hat Inc. <br>
+                    <a href="https://twitter.com/anisha_narang" title="Twitter">
                         @anisha_narang
                     </a>
                 </h4>
@@ -236,7 +237,7 @@
             <div class="wrap">
                 <h2><strong>A suite looks like: </strong></h2>
                <pre><code class="python">
-#suites/test_get_request.py
+#suites/test_get_users.py
 
 import lemoncheesecake.api as lcc
 from lemoncheesecake.matching import *
@@ -244,27 +245,24 @@ import requests
 
 
 SUITE = {
-    "description": "Tests for GET /api/modules/:module_id:"
+    "description": "Sample API tests for GET, POST, DELETE "
 }
 
-url = "https://www.example.com/"
-module_id = "id123456"
+base_url = "https://jsonplaceholder.typicode.com"
 
-
-@lcc.test("Verify that GET request for /api/modules/:module_id: gives a 200 OK")
-def test_get_module():
-    lcc.set_step("checking for endpoint: /api/modules/" + module_id)
-    response = requests.get(url=url + "/api/modules/" + module_id)
+@lcc.test("Verify that GET request for users/1 gives a 200 OK")
+def test_get_users():
+    lcc.set_step("checking for endpoint: https://jsonplaceholder.typicode.com/users/1")
+    response = requests.get(url=base_url + "/users/1")
     check_that("response code", response.status_code, equal_to(200), quiet=False)
 
-
-@lcc.test("Verify that GET request for /api/modules/:module_id: contains all the required params")
-def test_get_module_response():
-    response = requests.get(url=url + "/api/modules/" + module_id)
+@lcc.test("Verify that GET request for /users/1 contains required params")
+def test_get_users_params():
+    response = requests.get(url=base_url + "/users/1")
     result = response.json()
-    check_that("the response ", result, has_entry("module"))
-    check_that("the response ", result, has_entry("status"))
-    check_that("the response ", result, has_entry("message"))
+    check_that("the response ", result, has_entry("name"))
+    require_that("the resposne", result, has_entry("email", contains_string("@")))
+    assert_that("the response ", result, has_entry("username", equal_to("Bret")))
                </code></pre>
             </div>
         </section>
@@ -272,12 +270,12 @@ def test_get_module_response():
         <section>
             <div class="wrap">
                 <h4><strong>Running the test suite: </strong></h4>
-                <pre><code>$lcc run
-                </code></pre>
+                <pre><code>$lcc run</code></pre>
                 <h4><strong>Console output look like:</strong></h4>
-                <img src="./static/images/lcc_run.png">
+                <img src="./static/images/lcc_run_report.png">
             </div>
         </section>
+
 
         <section>
             <div class="wrap">
@@ -293,33 +291,86 @@ def test_get_module_response():
                             <li>is_dict([expected])</li>
                             <li>is_list([expected])</li>
                             <li>has_item(expected)</li>
+                            <li>has_items(expected)</li>
                             <li>has_entry(expected_key [,expected_value])</li>
+                            <li>is_(expected)</li>
+                            <li>is_not(expected)</li>
                             <li>and there are more...</li>
 
                         </ul>
                     </div>
                     <div class="column">
                         <p class="text-intro"><strong>The matching operations</strong></p>
-                        <ul>
-                            <li>check_that(hint, actual, matcher, quiet=False)</li>
-                            <li>require_that(hint, actual, matcher, quiet=False)</li>
-                            <li>assert_that(hint, actual, matcher, quiet=False)</li>
+                        <ul class="flexblock specs">
+                            <li><h6>check_that(hint, actual, matcher, quiet=False)</h6>
+                            run the matcher, log the result and return the matching result as a boolean
+                            </li>
+                            <li><h6>require_that(hint, actual, matcher, quiet=False)</h6>
+                            run the matcher, log the result and raise an AbortTest exception in case of a match failure</li>
+                            <li><h6>assert_that(hint, actual, matcher, quiet=False)</h6>
+                            run the match, in case of a match failure (and only in this case) log the result and raise an AbortTest exception</li>
                         </ul>
 
                     </div>
                 </div>
-                <pre><code>data = {"foo": 1, "bar": 2}
-check_that("data", data, has_entry("foo", equal_to(1)))
-check_that("data", data, has_entry("bar", equal_to(2)))
+                <pre><code>data = {"title": "Title 1", "uuid": "aaa11"}
+check_that("title is", data, has_entry("title", equal_to("Title 1")))
+check_that("uuid is", data, has_entry("uuid", equal_to("aaa11")))
                 </code></pre>
             </div>
         </section>
 
         <section>
             <div class="wrap">
-                <h2><strong>Fixtures</strong></h2>
-                <br>
+                <h2><strong>Sample JSON Output:</strong></h2>
+                <pre><code class="json">
+{
+  "id": 1,
+  "name": "Leanne Graham",
+  "username": "Bret",
+  "email": "Sincere@april.biz",
+  "address": {
+    "street": "Kulas Light",
+    "suite": "Apt. 556",
+    "city": "Gwenborough",
+    "zipcode": "92998-3874"
+  },
+  "phone": "1-770-736-8031 x56442",
+  "website": "hildegard.org"
+  }
+}
+                </code></pre>
+            </div>
+        </section>
 
+         <section>
+            <div class="wrap">
+                <h2><strong>Let's use the matchers and write more tests..</strong></h2>
+                <pre><code class="python">
+@lcc.test("Verify that GET request for /users/1 contains required params")
+def test_get_users_params():
+    response = requests.get(url=base_url + "/users/1")
+    result = response.json()
+    check_that("the response ", result, has_entry("name"))
+    require_that("the response", result, has_entry("email", contains_string("@")))
+    assert_that("the response ", result, has_entry("username", equal_to("Bret")))
+    check_that("the response ", result, has_entry("address", is_dict()))
+    require_that("the response", result, has_entry("address", has_entry("city", equal_to("Gwenborough"))))
+
+
+@lcc.test("Verify that POST request to /posts is successful")
+def test_post_req():
+    body = {
+      "title": 'Title for Devconf.CZ 2020',
+      "body": 'Test title by Anisha',
+      "userId": 500
+    }
+    response = requests.post(base_url + "/posts", data=body)
+    result= response.json()
+    require_that("the POST request response", response.status_code, equal_to(201))
+    lcc.log_info(str(result))
+    check_that("the response", result, has_entry("title", equal_to("Title for Devconf.CZ 2020")))
+                </code></pre>
             </div>
         </section>
 
@@ -331,22 +382,29 @@ check_that("data", data, has_entry("bar", equal_to(2)))
                     <div class="column">
                         <ul class="description">
 
-                            <li><strong>Promises represent the eventual result of an operation.</strong></li>
+                            <li><strong>lemoncheesecake provides logging functions that give the user the ability to log information beyond the checks.
+</strong></li>
                             <br>
-                            <li> Promises are objects. The Promise object is used for asynchronous computations.</li>
+                            <li> log_debug(msg)</li>
+                            <li>log_info(msg)</li>
+                            <li>log_warn(msg)</li>
+                            <li>log_error(msg)</li>
                         </ul>
                     </div>
                     <div class="column">
-
-
-
+<pre><code class="python">
+user_name = "User 1"
+lcc.log_info("User name to be added: %s " % user_name)
+</code></pre>
+                    </div>
                     </div>
                 </div>
         </section>
 
         <section>
             <div class="wrap">
-                <h2>Generating reports </h2>
+                <h2>Generating (awesome) reports </h2>
+                <img src="./static/images/test-report.png">
 
                     </div>
 
@@ -360,19 +418,9 @@ check_that("data", data, has_entry("bar", equal_to(2)))
                 <br>
                 <br>
                 <br>
-                <p class="text-intro">Code available here: <a href="https://github.com/anarang/protractor101-demo">https://goo.gl/qJBiFH</a>
+                <p class="text-intro">Code available here: <a href="https://github.com/anarang/lemoncheesecake101">https://github.com/anarang/lemoncheesecake101</a>
                 </p>
             </div>
-        </section>
-
-        <section class="fullscreen slide" style="display: none;">
-            <!-- Fullscreen Video -->
-            <div class="embed">
-                <!--iframe frameborder="0" allowfullscreen="1" allow="autoplay; encrypted-media" title="Demo video" width="640" height="360" src="./images/test-demo-1.mov" id="w"></iframe-->
-                <video controls="controls" width="800" height="600"
-                       name="Video Name" src="./images/test-demo-1.mov"></video>
-            </div>
-            <!-- .end .embed -->
         </section>
 
 
@@ -390,7 +438,7 @@ check_that("data", data, has_entry("bar", equal_to(2)))
                         </svg>
                         @anisha_narang
                     </a></p>
-                    <p>Slides available at: <a href="http://anarang.github.io/protractor_101/#slide=1">http://anarang.github.io/protractor_101/</a>
+                    <p>Slides available at: <a href="https://anarang.github.io/api101s_devconf2020/#slide=1">https://anarang.github.io/api101s_devconf2020</a>
                     </p>
 
                 </div>
