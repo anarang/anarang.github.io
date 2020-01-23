@@ -185,14 +185,16 @@
             <div class="wrap">
                 <h2><strong>Different API testing frameworks</strong></h2>
                 <!--div class="grid vertical-align"-->
-                <ul>
-                    <li>Curl</li>
-                    <li>Postman</li>
-                    <li>JMeter</li>
-                    <li>Karate</li>
-                    <li>Pytest</li>
+                <ul class="description">
+                    <li><span class="text-label">Curl:</span> curl provides a generic, language-agnostic way to demonstrate HTTP requests and responses.</li>
+                    <li><span class="text-label">Postman:</span> Postman is a Google Chrome app for interacting with HTTP APIs. It offers a friendly GUI for constructing requests and reading responses.
+</li>
+                    <li><span class="text-label">JMeter:</span> JMeter (open source) is widely used for functional API testing although it was actually created for load testing.
+</li>
+                    <li><span class="text-label">Karate:</span> Karate works out of the box and allows you to construct the most complex request-response operations with no knowledge of any programming language.</li>
+                    <li><span class="text-label">Pytest:</span> Pytest is a testing framework which allows us to write test codes using python.</li>
                     <li>but there is more with Python..</li>
-                    <li>Let's try out some 'lemoncheesecake' ;)</li>
+                    <li>Let's try out some <strong>'lemoncheesecake'</strong> ;)</li>
                 </ul>
                 <br>
 
@@ -224,7 +226,7 @@
                 <h2><strong>Writing your test suite</strong></h2>
                 <p class="text-intro">Creating a new test project</p>
                 <pre><code>$lcc bootstrap test-project</code></pre>
-                <p>Creates a new project directory “myproject” containing one file “project.py” (it contains your project settings)
+                <p>Creates a new project directory “test-project” containing one file “project.py” (it contains your project settings)
                     and “suites”  and "fixtures" directories for you add your test suites and fixtures.</p>
                 <img src="./static/images/project-tree.png">
 
@@ -260,7 +262,7 @@ def test_get_users_params():
     response = requests.get(url=base_url + "/users/1")
     result = response.json()
     check_that("the response ", result, has_entry("name"))
-    require_that("the resposne", result, has_entry("email", contains_string("@")))
+    require_that("the response", result, has_entry("email", contains_string("@")))
     assert_that("the response ", result, has_entry("username", equal_to("Bret")))
                </code></pre>
             </div>
@@ -418,10 +420,20 @@ lcc.log_info("User name to be added: %s " % user_name)
                 <br>
                 <br>
                 <p class="text-intro">Code available here: <a href="https://github.com/anarang/lemoncheesecake101">https://github.com/anarang/lemoncheesecake101</a>
+
                 </p>
             </div>
         </section>
 
+        <section class="fullscreen slide" style="display: none;">
+        <!-- Fullscreen Video -->
+        <div class="embed">
+          <!--iframe frameborder="0" allowfullscreen="1" allow="autoplay; encrypted-media" title="Demo video" width="640" height="360" src="./images/test-demo-1.mov" id="w"></iframe-->
+          <video controls="controls" width="800" height="600"
+     name="Video Name" src="./static/images/demo-lemoncheesecakse101.mov"></video>
+        </div>
+        <!-- .end .embed -->
+      </section>
 
         <section class="slide-center">
             <div class="wrap">
